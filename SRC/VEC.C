@@ -19,6 +19,12 @@ void vecSAdd(Vec3* v, const double scalar) {
     v->z += scalar;
 }
 
+void vecZero(Vec3* v) {
+    v->x = 0.0;
+    v->y = 0.0;
+    v->z = 0.0;
+}
+
 void vecProject(Vec2* out, const Vec3* v, const int fov) {
     out->x = (fov * v->x) / v->z;
     out->y = (fov * v->y) / v->z;

@@ -18,6 +18,8 @@ double vecInvLen(const Vec3* v);
 
 void vecSAdd(Vec3* v, const double scalar);
 
+void vecZero(Vec3* v);
+
 void vecProject(Vec2* out, const Vec3* v, const int fov);
 
 void vecRotx(Vec3* out, const Vec3* v, const double angle);
