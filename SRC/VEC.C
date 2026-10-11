@@ -25,6 +25,16 @@ void vecZero(Vec3* v) {
     v->z = 0.0;
 }
 
+void vecNormal(const Vec3* out, const Vec3* v0, const Vec3* v1, const Vec3* v2) {
+    Vec3 ab, ac;
+    
+    vecSub(&ab, v1, v0);
+    vecSub(&ac, v2, v0);
+    
+    vecCross(out, &ab, &ac);
+    vecNormalize(out);
+}
+
 void vecWrap(Vec3* v, const double value) {
     if (v->x >= value) v->x -= value;
     if (v->y >= value) v->y -= value;

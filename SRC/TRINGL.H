@@ -22,7 +22,6 @@ typedef struct {
     Triangle* data;     
 } TriArray;   
 
-Vec3 computeNormal(const Vec3* v0, const Vec3* v1, const Vec3* v2);
 // Triangle Array functions
 void taInit(TriArray* ta, int size);
 

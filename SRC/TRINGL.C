@@ -1,18 +1,6 @@
 #include "tringl.h"
 #include <stdlib.h>
 
-Vec3 computeNormal(const Vec3* v0, const Vec3* v1, const Vec3* v2) {
-    Vec3 ab, ac, normal;
-    
-    vecSub(&ab, v1, v0);
-    vecSub(&ac, v2, v0);
-    
-    vecCross(&normal, &ab, &ac);
-    vecNormalize(&normal);
-
-    return normal;
-}
-
 void taInit(TriArray* ta, int size) {
     ta->count = 0;
     ta->capacity = size;
