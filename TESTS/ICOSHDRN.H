@@ -50,11 +50,13 @@ Scene icosahedron() {
     };
 
     Scene scene;
+    int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
+    int faceCount = sizeof(faces) / sizeof(faces[0]);
     scene.vertices = (Vec3*)vertices;
-    scene.transformedVertices = (Vec3*)malloc(sizeof(Vec3) * 12);
+    scene.transformedVertices = (Vec3*)malloc(sizeof(Vec3) * vertexCount);
     scene.faces = (Face*)faces;
-    scene.vertexCount = 12;
-    scene.faceCount = 20;
+    scene.vertexCount = vertexCount;
+    scene.faceCount = faceCount;
     scene.rot.x = 0.02; // Set rotation speed for x-axis
     scene.rot.y = 0.02; // Set rotation speed for y-axis
     scene.rot.z = 0.02; // Set rotation speed for z-axis

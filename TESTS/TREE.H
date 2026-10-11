@@ -65,7 +65,7 @@ Scene tree() {
         // Layer 1 — darkest green
         {9, 13, 10,  0x02, { 0, 0,-1}},
         {10, 13, 11, 0x02, { 1, 0, 0}},
-        {11, 13, 12, 0x0A, { 0, 0, 1}},
+        {11, 13, 12, 0x02, { 0, 0, 1}},
         {12, 13, 9,  0x02, {-1, 0, 0}},
 
         // Layer 2
@@ -88,11 +88,13 @@ Scene tree() {
     };
 
     Scene scene;
+    int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
+    int faceCount = sizeof(faces) / sizeof(faces[0]);
     scene.vertices = (Vec3*)vertices;
-    scene.transformedVertices = (Vec3*)malloc(sizeof(Vec3) * 28);
+    scene.transformedVertices = (Vec3*)malloc(sizeof(Vec3) * vertexCount);
     scene.faces = (Face*)faces;
-    scene.vertexCount = 28;
-    scene.faceCount = sizeof(faces) / sizeof(faces[0]);
+    scene.vertexCount = vertexCount;
+    scene.faceCount = faceCount;
     scene.rot.x = 0.0; // Set rotation speed for x-axis
     scene.rot.y = 0.02; // Set rotation speed for y-axis
     scene.rot.z = 0.0; // Set rotation speed for z-axis
