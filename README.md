@@ -19,9 +19,10 @@ You can download the `EXE` file from [itch.io](https://xms0g.itch.io/cube13h).
 |`WASD`|Move         |
 |`↑ ↓` |Fly up/down  |
 |`ESC` |Exit         |
+|`1/2/3`| Cube/Ico/Tree|
 
 ## Building
-If you want to build `cube13h` from source, you'll need Turbo C++ and the related [build tools](https://github.com/ms0g/breakout/tree/main/TOOLS/tcpp). 
+If you want to build `3Dos` from source, you'll need Turbo C++ and the related [build tools](https://github.com/ms0g/breakout/tree/main/TOOLS/tcpp). 
 
 ## License
 This project is licensed under the BSD 3-Clause License. See the LICENSE file for details.
