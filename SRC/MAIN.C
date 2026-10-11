@@ -1,10 +1,10 @@
 #include "vec.h"
-#include "mat.h"
+#include "matx.h"
 #include "math.h"
 #include "vga.h"
 #include "tringl.h"
 #include "keybrd.h"
-#include "renderer.h"
+#include "rndr.h"
 #include "cube.h"
 #include "icoshdrn.h"
 #include "tree.h"
@@ -15,11 +15,11 @@
 #define HALF_HEIGHT 100
 #define FOV_FACTOR 280
 
-static Scene scene;
 static Vec3 rot;
 static Vec3 cameraPos;
 static TriArray triangles;
 static int isRunning;
+static Scene scene;
 
 static void processInput(void) {
     if (kbHit(ESC)) {
