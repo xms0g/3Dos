@@ -67,7 +67,7 @@ static void update(Scene* scene) {
     mtxMulMat3(&tempMat, &rotMatx, &rotMaty);
     mtxMulMat3(&rotMat, &tempMat, &rotMatz);
 
-    for (i = 0; i < scene->vertexCount; i++) {
+    for (i = 0; i < scene->vertexCount; ++i) {
         Vec3 transformedVertex;
         const Vec3 vertex = scene->vertices[i];
 
@@ -81,7 +81,7 @@ static void update(Scene* scene) {
         scene->transformedVertices[i] = transformedVertex;
     }
 
-    for (i = 0; i < scene->faceCount; i++) {
+    for (i = 0; i < scene->faceCount; ++i) {
         Vec3 transformedNormal;
         const Face face = scene->faces[i];
 
@@ -125,7 +125,7 @@ static void render(void) {
 
     vgaClearOffscreen(0x0);
 
-    for (i = 0; i < triangles.count; i++) {
+    for (i = 0; i < triangles.count; ++i) {
         const Triangle* tri = taAt(&triangles, i);
 
         // Draw filled triangle
