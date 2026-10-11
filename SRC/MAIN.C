@@ -58,10 +58,7 @@ static void update(Scene* scene) {
     Triangle projectedTriangle;
     
     vecAdd(&rot, &rot, &scene->rot);
-
-    if (rot.x >= TWO_PI) rot.x -= TWO_PI;
-    if (rot.y >= TWO_PI) rot.y -= TWO_PI;
-    if (rot.z >= TWO_PI) rot.z -= TWO_PI;
+    vecWrap(&rot, TWO_PI);
 
     mtxRotx(&rotMatx, rot.x);
     mtxRoty(&rotMaty, rot.y);

@@ -20,6 +20,8 @@ void vecSAdd(Vec3* v, const double scalar);
 
 void vecZero(Vec3* v);
 
+void vecWrap(Vec3* v, const double value);
+
 void vecProject(Vec2* out, const Vec3* v, const int fov);
 
 void vecRotx(Vec3* out, const Vec3* v, const double angle);

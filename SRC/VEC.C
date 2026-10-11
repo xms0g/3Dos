@@ -25,6 +25,12 @@ void vecZero(Vec3* v) {
     v->z = 0.0;
 }
 
+void vecWrap(Vec3* v, const double value) {
+    if (v->x >= value) v->x -= value;
+    if (v->y >= value) v->y -= value;
+    if (v->z >= value) v->z -= value;
+}
+
 void vecProject(Vec2* out, const Vec3* v, const int fov) {
     out->x = (fov * v->x) / v->z;
     out->y = (fov * v->y) / v->z;
