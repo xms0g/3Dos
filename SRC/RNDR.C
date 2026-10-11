@@ -1,4 +1,4 @@
-#include "renderer.h"
+#include "rndr.h"
 #include "vga.h"
 #include "math.h"
 

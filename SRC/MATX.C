@@ -1,4 +1,4 @@
-#include "mat.h"
+#include "matx.h"
 #include "math.h"
 
 void mtxIdentity(Mat3* out) {

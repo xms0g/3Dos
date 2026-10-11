@@ -1,5 +1,5 @@
-#ifndef MAT_H
-#define MAT_H
+#ifndef MATX_H
+#define MATX_H
 
 #include "vec.h"
 
