@@ -8,9 +8,9 @@ typedef struct {
     void* data;     
 } CVEC;   
 
-void cvInit(CVEC* cv, int capacity, int itemSize);
+int cvInit(CVEC* cv, int capacity, int itemSize);
 
-void cvPushback(CVEC* cv, void* item);
+int cvPushback(CVEC* cv, void* item);
 
 void* cvAt(CVEC* cv, int index);
 

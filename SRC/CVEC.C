@@ -1,15 +1,30 @@
 #include "cvec.h"
 #include <stdlib.h>
 
-void cvInit(CVEC* cv, int capacity, int itemSize) {
+int cvInit(CVEC* cv, int capacity, int itemSize) {
+    if (cv == NULL || capacity <= 0 || itemSize <= 0) {
+        return -1;
+    }
+
     cv->count = 0;
     cv->capacity = capacity;
     cv->itemSize = itemSize;
     cv->data = (void*)malloc(capacity * cv->itemSize);
+    
+    if (cv->data == NULL) {
+        return -1;
+    }
+
+    return 0;
 }
 
-void cvPushback(CVEC* cv, void* item) {
+int cvPushback(CVEC* cv, void* item) {
     char* dest;
+
+    if (cv == NULL || item == NULL) {
+        return -1;
+    }
+
     if (cv->count == cv->capacity) {
         cv->capacity *= 2;
         cv->data = (void*)realloc(cv->data, cv->capacity * cv->itemSize);
@@ -18,10 +33,12 @@ void cvPushback(CVEC* cv, void* item) {
     dest = (char*)cv->data + (cv->count * cv->itemSize);
     memcpy(dest, item, cv->itemSize);
     cv->count++;
+
+    return 0;
 }
 
 void* cvAt(CVEC* cv, int index) {
-    if (index < 0 || index >= cv->count) {
+    if (cv == NULL || index < 0 || index >= cv->count) {
         return NULL;
     }
 
@@ -29,11 +46,14 @@ void* cvAt(CVEC* cv, int index) {
 }
 
 void cvClear(CVEC* cv) {
-    memset(cv->data, 0, cv->count * cv->itemSize);
     cv->count = 0;
 }
 
 void cvFree(CVEC* cv) {
     free(cv->data);
     cv->data = NULL;
+    
+    cv->count = 0;
+    cv->capacity = 0;
+    cv->itemSize = 0;
 }
