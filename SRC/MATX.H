@@ -9,11 +9,13 @@ typedef struct {
 
 void mtxIdentity(Mat3* out);
 
-void mtxRotz(Mat3* out, double angle);
+void mtxRot(Mat3* out, const Vec3* rot);
 
-void mtxRoty(Mat3* out, double angle);
+void mtxRotZ(Mat3* out, double angle);
 
-void mtxRotx(Mat3* out, double angle);
+void mtxRotY(Mat3* out, double angle);
+
+void mtxRotX(Mat3* out, double angle);
 
 void mtxMulVec3(Vec3* out, const Mat3* m, const Vec3* v);
 

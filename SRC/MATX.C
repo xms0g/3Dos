@@ -9,7 +9,16 @@ void mtxIdentity(Mat3* out) {
             out->m[i][j] = (i == j) ? 1.0 : 0.0;
 }
 
-void mtxRotz(Mat3* out, double angle) {
+void mtxRot(Mat3* out, const Vec3* rot) {
+    Mat3 temp, matx, maty, matz;
+    mtxRotX(&matx, rot->x);
+    mtxRotY(&maty, rot->y);
+    mtxRotZ(&matz, rot->z);
+    mtxMulMat3(&temp, &matx, &maty);
+    mtxMulMat3(out, &temp, &matz);
+}
+
+void mtxRotZ(Mat3* out, double angle) {
     // | c -s  0 |
     // | s  c  0 |
     // | 0  0  1 |
@@ -24,7 +33,7 @@ void mtxRotz(Mat3* out, double angle) {
     out->m[1][1] = c;
 }
 
-void mtxRoty(Mat3* out, double angle) {
+void mtxRotY(Mat3* out, double angle) {
     // |  c  0  s |
     // |  0  1  0 |
     // | -s  0  c |
@@ -39,7 +48,7 @@ void mtxRoty(Mat3* out, double angle) {
     out->m[2][2] = c;
 }
 
-void mtxRotx(Mat3* out, double angle) {
+void mtxRotX(Mat3* out, double angle) {
     // | 1  0  0 |
     // | 0  c -s |
     // | 0  s  c |

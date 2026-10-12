@@ -54,18 +54,13 @@ static void processInput(void) {
 static void update(Scene* scene) {
     int i, j;
     Vec3 cameraRay;
-    Mat3 rotMat, tempMat, rotMatx, rotMaty, rotMatz;
+    Mat3 rotMat;
     Triangle projectedTriangle;
     
+    // Rotate the scene
     vecAdd(&rot, &rot, &scene->rot);
     vecWrap(&rot, TWO_PI);
-
-    mtxRotx(&rotMatx, rot.x);
-    mtxRoty(&rotMaty, rot.y);
-    mtxRotz(&rotMatz, rot.z);
-
-    mtxMulMat3(&tempMat, &rotMatx, &rotMaty);
-    mtxMulMat3(&rotMat, &tempMat, &rotMatz);
+    mtxRot(&rotMat, &rot);
 
     for (i = 0; i < scene->vertexCount; ++i) {
         Vec3 transformedVertex;
