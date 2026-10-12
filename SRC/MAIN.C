@@ -4,6 +4,7 @@
 #include "vga.h"
 #include "tringl.h"
 #include "keybrd.h"
+#include "cvec.h"
 #include "rndr.h"
 #include "cvec.h"
 #include "cube.h"

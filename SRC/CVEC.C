@@ -1,4 +1,4 @@
-#include "cv.h"
+#include "cvec.h"
 #include <stdlib.h>
 
 void cvInit(CVEC* cv, int capacity, int itemSize) {
