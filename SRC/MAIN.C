@@ -5,6 +5,7 @@
 #include "tringl.h"
 #include "keybrd.h"
 #include "rndr.h"
+#include "cvec.h"
 #include "cube.h"
 #include "icoshdrn.h"
 #include "tree.h"
@@ -17,7 +18,7 @@
 
 static Vec3 rot;
 static Vec3 cameraPos;
-static TriArray triangles;
+static CVEC triangles;
 static int isRunning;
 static Scene scene;
 
@@ -111,7 +112,7 @@ static void update(Scene* scene) {
 
         projectedTriangle.color = face.color;
         
-		taPushback(&triangles, &projectedTriangle);
+		cvPushback(&triangles, &projectedTriangle);
     }    
 }
 
@@ -121,7 +122,7 @@ static void render(void) {
     vgaClearOffscreen(0x0);
 
     for (i = 0; i < triangles.count; ++i) {
-        const Triangle* tri = taAt(&triangles, i);
+        const Triangle* tri = (Triangle*)cvAt(&triangles, i);
 
         // Draw filled triangle
         rndDrawFilledTri(
@@ -132,7 +133,7 @@ static void render(void) {
         );  
     }
 
-   	taClear(&triangles);
+   	cvClear(&triangles);
 
     vgaUpdateVram();
 }
@@ -145,13 +146,13 @@ void main(void) {
     rot.x = 0.0;
     rot.y = 0.0;
     rot.z = 0.0;
-    
+
     isRunning = 1;
 
     vgaInit();
     kbInit();
 
-	taInit(&triangles, 2);
+	cvInit(&triangles, 10, sizeof(Triangle));
     initSinCosLUT();
 
     scene = cube(); // Start with the cube scene
@@ -161,7 +162,7 @@ void main(void) {
         render();
     }
 
-	taFree(&triangles);
+	cvFree(&triangles);
     free(scene.transformedVertices);
 
     vgaExit();

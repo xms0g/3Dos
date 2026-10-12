@@ -16,23 +16,4 @@ typedef struct {
     char color;
 } Triangle;
 
-typedef struct {    
-    int count;      
-    int capacity;   
-    Triangle* data;     
-} TriArray;   
-
-// Triangle Array functions
-void taInit(TriArray* ta, int size);
-
-void taPushback(TriArray* ta, Triangle* tri);
-
-void taRemove(TriArray* ta, int index);
-
-Triangle* taAt(TriArray* ta, int index);
-
-void taClear(TriArray* ta);
-
-void taFree(TriArray* ta);
-
 #endif
