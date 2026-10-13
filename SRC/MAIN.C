@@ -90,9 +90,9 @@ static void update(Scene* scene) {
         // Rotate the face normal
         mtxMulVec3(&transformedNormal, &rotMat, &face.normal);
 
-        scene->faceVertices[0] = scene->transformedVertices[face.a - 1];
-        scene->faceVertices[1] = scene->transformedVertices[face.b - 1];
-        scene->faceVertices[2] = scene->transformedVertices[face.c - 1];
+        scene->faceVertices[0] = scene->transformedVertices[face.a];
+        scene->faceVertices[1] = scene->transformedVertices[face.b];
+        scene->faceVertices[2] = scene->transformedVertices[face.c];
 
         vecSub(&cameraRay, &cameraPos, &scene->faceVertices[0]);
 
