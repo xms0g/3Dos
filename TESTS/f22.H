@@ -328,9 +328,9 @@ Scene f22() {
     scene.vertexCount = vertexCount;
     scene.faceCount = faceCount;
 
-    scene.rot.x = 0.01f;
+    scene.rot.x = 0.02f;
     scene.rot.y = 0.02f;
-    scene.rot.z = 0.01f;
+    scene.rot.z = 0.02f;
 
     return scene;
 }
