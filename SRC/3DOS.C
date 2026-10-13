@@ -85,14 +85,14 @@ static void update(Scene* scene) {
 
     for (i = 0; i < scene->faceCount; ++i) {
         Vec3 transformedNormal;
-        const Face face = scene->faces[i];
+        const Face f = scene->faces[i];
 
         // Rotate the face normal
-        mtxMulVec3(&transformedNormal, &rotMat, &face.normal);
+        mtxMulVec3(&transformedNormal, &rotMat, &f.normal);
 
-        scene->faceVertices[0] = scene->transformedVertices[face.a];
-        scene->faceVertices[1] = scene->transformedVertices[face.b];
-        scene->faceVertices[2] = scene->transformedVertices[face.c];
+        scene->faceVertices[0] = scene->transformedVertices[f.a];
+        scene->faceVertices[1] = scene->transformedVertices[f.b];
+        scene->faceVertices[2] = scene->transformedVertices[f.c];
 
         vecSub(&cameraRay, &cameraPos, &scene->faceVertices[0]);
 
@@ -117,7 +117,6 @@ static void update(Scene* scene) {
         }
 
         projectedTriangle.color = face.color;
-        
 		cvPushback(&triangles, &projectedTriangle);
     }    
 }
