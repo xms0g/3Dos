@@ -124,7 +124,7 @@ static void update(Scene* scene) {
 static void render(void) {
     int i;
 
-    vgaClearOffscreen(0x0);
+    vgaClearOffscreen(0x03);
 
     for (i = 0; i < triangles.count; ++i) {
         const Triangle* tri = (Triangle*)cvAt(&triangles, i);

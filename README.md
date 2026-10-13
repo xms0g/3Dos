@@ -3,7 +3,10 @@
 3DOS is a low-poly old-school software renderer written in Turbo C and x86 assembly for PC DOS, running in mode 13h (320x200) colors.
 You can download the `EXE` file from [itch.io](https://xms0g.itch.io/cube13h).
 
-<img src="IMG/screenrecording.gif" alt="image" width="700" height="auto">
+<img src="IMG/cube.gif" alt="image" width="700" height="auto">
+<img src="IMG/ico.gif" alt="image" width="700" height="auto">
+<img src="IMG/tree.gif" alt="image" width="700" height="auto">
+<img src="IMG/f22.gif" alt="image" width="700" height="auto">
 
 ## Features
 - **Triangle rasterization:** Fills triangle faces on the cube
@@ -19,7 +22,7 @@ You can download the `EXE` file from [itch.io](https://xms0g.itch.io/cube13h).
 |`WASD`|Move         |
 |`↑ ↓` |Fly up/down  |
 |`ESC` |Exit         |
-|`1/2/3`| Cube/Ico/Tree|
+|`1/2/3/4`| Cube/Ico/Tree/F22|
 
 ## Building
 If you want to build `3Dos` from source, you'll need Turbo C++ and the related [build tools](https://github.com/ms0g/breakout/tree/main/TOOLS/tcpp). 
