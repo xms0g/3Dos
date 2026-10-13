@@ -10,6 +10,7 @@
 #include "cube.h"
 #include "icoshdrn.h"
 #include "tree.h"
+#include "f22.h"
 
 #define WIDTH 320
 #define HEIGHT 200
@@ -50,6 +51,10 @@ static void processInput(void) {
         free(scene.transformedVertices);
         vecZero(&rot);
         scene = tree();
+    } else if (kbHit(NUM_4)) {
+        free(scene.transformedVertices);
+        vecZero(&rot);
+        scene = f22();
     }
 }
 
