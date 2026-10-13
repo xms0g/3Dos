@@ -116,7 +116,7 @@ static void update(Scene* scene) {
             projectedTriangle.points[j] = pv;
         }
 
-        projectedTriangle.color = face.color;
+        projectedTriangle.color = f.color;
 		cvPushback(&triangles, &projectedTriangle);
     }    
 }
