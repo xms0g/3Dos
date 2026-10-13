@@ -20,6 +20,7 @@ int cvInit(CVEC* cv, int capacity, int itemSize) {
 
 int cvPushback(CVEC* cv, void* item) {
     char* dest;
+    char* new;
 
     if (cv == NULL || item == NULL) {
         return -1;
@@ -27,7 +28,13 @@ int cvPushback(CVEC* cv, void* item) {
 
     if (cv->count == cv->capacity) {
         cv->capacity *= 2;
-        cv->data = (void*)realloc(cv->data, cv->capacity * cv->itemSize);
+        new = (char*)realloc(cv->data, cv->capacity * cv->itemSize);
+        
+        if (new == NULL) {
+            return -1;
+        }
+        
+        cv->data = new;
     }
 
     dest = (char*)cv->data + (cv->count * cv->itemSize);
