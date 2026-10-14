@@ -19,8 +19,8 @@ static double threshold(int x, int y) {
 
 static unsigned char dithering(int x, int y, unsigned char color, double intensity) {
     double scaled = intensity * (SHADE_LEVELS - 1);
-    int lo = (int)scaled;
-    int hi = lo < SHADE_LEVELS - 1 ? lo + 1 : lo;
+    int lo = floor(scaled);
+    int hi = lo < SHADE_LEVELS - 1 ? ceil(scaled) : lo;
 
     double frac = ((scaled - lo));
     int level = frac > threshold(x, y) ? hi : lo;

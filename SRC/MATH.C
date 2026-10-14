@@ -1,5 +1,4 @@
 #include "math.h"
-#include <math.h>
 
 #define LUT_SIZE 2048
 
