@@ -15,6 +15,8 @@
 
 #define round(v) (signbit(v) ? ceil(v - 0.5) : floor(v + 0.5))
 
+#define clamp(v, min, max) ((v) < (min) ? (min) : ((v) > (max) ? (max) : (v)))
+
 #define min(n0, n1) (n1 ^ ((n0 ^ n1) & -(n0 < n1)))
 
 #define max(n0, n1) (n1 ^ ((n0 ^ n1) & -(n0 > n1)))

@@ -119,9 +119,7 @@ static void update() {
         }
 
         lightIntensity = vecDot(&transformedNormal, &lightDir);
-        if (lightIntensity < 0.0) lightIntensity = 0.0;
-        if (lightIntensity > 1.0) lightIntensity = 1.0;
-        projectedTriangle.lightIntensity = lightIntensity;
+        projectedTriangle.lightIntensity = clamp(lightIntensity, 0.0, 1.0);
         projectedTriangle.color = f.color;
         
 		cvPushback(&triangles, &projectedTriangle);
