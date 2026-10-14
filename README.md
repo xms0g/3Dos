@@ -1,20 +1,22 @@
 # 3DOS
 
 3DOS is a low-poly old-school software renderer written in Turbo C and x86 assembly for PC DOS, running in mode 13h (320x200) colors.
-You can download the `EXE` file from [itch.io](https://xms0g.itch.io/cube13h).
+You can download the `EXE` file from [itch.io](https://xms0g.itch.io/3dos).
 
 <img src="IMG/cube.gif" alt="image" width="700" height="auto">
 <img src="IMG/ico.gif" alt="image" width="700" height="auto">
 <img src="IMG/tree.gif" alt="image" width="700" height="auto">
 <img src="IMG/f22.gif" alt="image" width="700" height="auto">
+<img src="IMG/f22_slow.gif" alt="image" width="700" height="auto">
 
 ## Features
-- **Triangle rasterization:** Fills triangle faces on the cube
-- **3D vertex transformations:** Applies rotation and movement
-- **Perspective projection:** Simulates depth perception
-- **Backface culling:** Hides faces pointing away from the camera
-- **Bresenham's line algorithm:** Draws cube edges pixel by pixel
-- **Double buffering:** Prevents flickering and tearing
+- Triangle rasterization
+- 3D vertex transformations
+- Perspective projection
+- Backface culling
+- Bresenham's line algorithm
+- Ordered Dithering using 4x4 Bayer Matrix
+- Double buffering
 
 ## Controls
 | Key  | Description |
