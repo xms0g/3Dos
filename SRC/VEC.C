@@ -25,7 +25,7 @@ void vecZero(Vec3* v) {
     v->z = 0.0;
 }
 
-void vecNormal(const Vec3* out, const Vec3* v0, const Vec3* v1, const Vec3* v2) {
+void vecNormal(Vec3* out, const Vec3* v0, const Vec3* v1, const Vec3* v2) {
     Vec3 ab, ac;
     
     vecSub(&ab, v1, v0);

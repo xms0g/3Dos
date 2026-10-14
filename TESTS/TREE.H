@@ -96,7 +96,7 @@ Scene tree() {
     scene.vertexCount = vertexCount;
     scene.faceCount = faceCount;
     scene.rot.x = 0.0; // Set rotation speed for x-axis
-    scene.rot.y = 0.02; // Set rotation speed for y-axis
+    scene.rot.y = 0.03; // Set rotation speed for y-axis
     scene.rot.z = 0.0; // Set rotation speed for z-axis
     return scene;
 }
