@@ -11,6 +11,6 @@ void rndDrawRect(int x, int y, int width, int height, unsigned char color);
     
 void rndDrawTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color);
 
-void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color);
+void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color, double lightIntensity);
 
 #endif

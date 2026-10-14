@@ -20,6 +20,7 @@
 
 static Vec3 rot;
 static Vec3 cameraPos;
+static Vec3 lightDir;
 static CVEC triangles;
 static int isRunning;
 static Scene scene;
@@ -58,20 +59,20 @@ static void processInput(void) {
     }
 }
 
-static void update(Scene* scene) {
+static void update() {
     int i, j;
     Vec3 cameraRay;
     Mat3 rotMat;
     Triangle projectedTriangle;
     
     // Rotate the scene
-    vecAdd(&rot, &rot, &scene->rot);
+    vecAdd(&rot, &rot, &scene.rot);
     vecWrap(&rot, TWO_PI);
     mtxRot(&rotMat, &rot);
 
-    for (i = 0; i < scene->vertexCount; ++i) {
+    for (i = 0; i < scene.vertexCount; ++i) {
         Vec3 transformedVertex;
-        const Vec3 vertex = scene->vertices[i];
+        const Vec3 vertex = scene.vertices[i];
 
         // Rotate the vertex around the cube's center
         mtxMulVec3(&transformedVertex, &rotMat, &vertex);
@@ -80,21 +81,22 @@ static void update(Scene* scene) {
         transformedVertex.z = transformedVertex.z - cameraPos.z;
 
         // Save transformed vertex in the array of transformed vertices
-        scene->transformedVertices[i] = transformedVertex;
+        scene.transformedVertices[i] = transformedVertex;
     }
 
-    for (i = 0; i < scene->faceCount; ++i) {
+    for (i = 0; i < scene.faceCount; ++i) {
         Vec3 transformedNormal;
-        const Face f = scene->faces[i];
+        double lightIntensity;
+        const Face f = scene.faces[i];
 
         // Rotate the face normal
         mtxMulVec3(&transformedNormal, &rotMat, &f.normal);
 
-        scene->faceVertices[0] = scene->transformedVertices[f.a];
-        scene->faceVertices[1] = scene->transformedVertices[f.b];
-        scene->faceVertices[2] = scene->transformedVertices[f.c];
+        scene.faceVertices[0] = scene.transformedVertices[f.a];
+        scene.faceVertices[1] = scene.transformedVertices[f.b];
+        scene.faceVertices[2] = scene.transformedVertices[f.c];
 
-        vecSub(&cameraRay, &cameraPos, &scene->faceVertices[0]);
+        vecSub(&cameraRay, &cameraPos, &scene.faceVertices[0]);
 
         // Backface Culling
         if (vecDot(&transformedNormal, &cameraRay) < 0) 
@@ -103,7 +105,7 @@ static void update(Scene* scene) {
         for (j = 0; j < 3; ++j) {
             Vec2 pv;
             Vec3 cameraView;
-            const Vec3 fv = scene->faceVertices[j];
+            const Vec3 fv = scene.faceVertices[j];
             
             // Convert points to camera's local coordinate system
             vecSub(&cameraView, &fv, &cameraPos);
@@ -116,7 +118,12 @@ static void update(Scene* scene) {
             projectedTriangle.points[j] = pv;
         }
 
+        lightIntensity = vecDot(&transformedNormal, &lightDir);
+        if (lightIntensity < 0.0) lightIntensity = 0.0;
+        if (lightIntensity > 1.0) lightIntensity = 1.0;
+        projectedTriangle.lightIntensity = lightIntensity;
         projectedTriangle.color = f.color;
+        
 		cvPushback(&triangles, &projectedTriangle);
     }    
 }
@@ -134,7 +141,8 @@ static void render(void) {
             tri->points[0].x, tri->points[0].y, // vertex A
             tri->points[1].x, tri->points[1].y, // vertex B
             tri->points[2].x, tri->points[2].y, // vertex C
-            tri->color
+            tri->color,
+            tri->lightIntensity
         );  
     }
 
@@ -147,6 +155,10 @@ void main(void) {
     cameraPos.x = 0.0;
     cameraPos.y = 0.0;
 	cameraPos.z = 5.0;
+
+    lightDir.x = 0.0;
+    lightDir.y = 0.0;
+    lightDir.z = 1.0;
     
     rot.x = 0.0;
     rot.y = 0.0;
@@ -163,7 +175,7 @@ void main(void) {
     scene = cube(); // Start with the cube scene
 	while (isRunning) {
         processInput();
-        update(&scene);
+        update();
         render();
     }
 

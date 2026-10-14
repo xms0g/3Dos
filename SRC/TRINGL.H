@@ -14,6 +14,7 @@ typedef struct {
 typedef struct {
     Vec2 points[3];
     unsigned char color;
+    double lightIntensity;
 } Triangle;
 
 #endif

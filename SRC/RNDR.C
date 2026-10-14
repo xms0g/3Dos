@@ -1,11 +1,34 @@
 #include "rndr.h"
 #include "vga.h"
 #include "math.h"
+#include "shdplt.h"
 
 #define isTopLeft(x0, y0, x1, y1) ((y1 - y0) < 0 || ((y1 - y0) == 0 && (x1 - x0) > 0))
 #define edgeFunction(x0, y0, x1, y1, x2, y2) ((x1 - x0) * (y2 - y0) - (y1 - y0) * (x2 - x0))
 
-void rndPutchar(int x, int y, char color, const int (*font)[5][5]) {
+static double threshold(int x, int y) {
+    static const int bayer4x4[16] = {
+        0, 8, 2, 10,
+        12, 4, 14, 6,
+        3, 11, 1, 9,
+        15, 7, 13, 5
+    };
+
+    return bayer4x4[((y & 3) << 2) | (x & 3)] / 16.0;
+}
+
+static unsigned char dithering(int x, int y, unsigned char color, double intensity) {
+    double scaled = intensity * (SHADE_LEVELS - 1);
+    int lo = (int)scaled;
+    int hi = lo < SHADE_LEVELS - 1 ? lo + 1 : lo;
+
+    double frac = ((scaled - lo));
+    int level = frac > threshold(x, y) ? hi : lo;
+
+    return shadePalette[color][level];
+}
+
+void rndPutchar(int x, int y, unsigned char color, const int (*font)[5][5]) {
     int i, j;
     for (i = 0; i < 5; ++i) {
         for (j = 0; j < 5; ++j) {
@@ -77,7 +100,7 @@ void rndDrawTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char co
     rndBresenham(x2, y2, x0, y0, color);
 }
 
-void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color) {
+void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color, double lightIntensity) {
     int xmin = max(0, min(min(x0, x1), x2));
     int ymin = max(0, min(min(y0, y1), y2));
     int xmax = min(319, max(max(x0, x1), x2));
@@ -110,7 +133,7 @@ void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned c
         
         for (x = xmin; x <= xmax; ++x) {
             if ((w0 | w1 | w2 ) >= 0) {
-                vgaPutPixel(x, y, color);
+                vgaPutPixel(x, y, dithering(x, y, color, lightIntensity));
             }
 
             w0 += delta_w0_col;
