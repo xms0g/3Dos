@@ -14,7 +14,6 @@ You can download the `EXE` file from [itch.io](https://xms0g.itch.io/3dos).
 - 3D vertex transformations
 - Perspective projection
 - Backface culling
-- Bresenham's line algorithm
 - Ordered Dithering using 4x4 Bayer Matrix
 - Double buffering
 
