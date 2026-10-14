@@ -7,13 +7,13 @@ typedef struct {
     int a;
     int b;
     int c;
-    char color;
+    unsigned char color;
     Vec3 normal;
 } Face;
 
 typedef struct {
     Vec2 points[3];
-    char color;
+    unsigned char color;
 } Triangle;
 
 #endif

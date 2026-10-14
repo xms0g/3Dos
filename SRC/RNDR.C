@@ -16,7 +16,7 @@ void rndPutchar(int x, int y, char color, const int (*font)[5][5]) {
     }
 }
 
-void rndDDA(int x0, int y0, int x1, int y1, char color) {
+void rndDDA(int x0, int y0, int x1, int y1, unsigned char color) {
     int dx = x1 - x0;
     int dy = y1 - y0;
 
@@ -37,7 +37,7 @@ void rndDDA(int x0, int y0, int x1, int y1, char color) {
     }
 }
 
-void rndBresenham(int x0, int y0, int x1, int y1, char color) {
+void rndBresenham(int x0, int y0, int x1, int y1, unsigned char color) {
     int dx = absf(x1 - x0);
     int sx = x0 < x1 ? 1 : -1;
     int dy = absf(y1 - y0);
@@ -62,7 +62,7 @@ void rndBresenham(int x0, int y0, int x1, int y1, char color) {
     }
 }
 
-void rndDrawRect(int x, int y, int width, int height, char color) {
+void rndDrawRect(int x, int y, int width, int height, unsigned char color) {
     int i, j;
     for (i = 0; i < width; i++) {
         for (j = 0; j < height; j++) {
@@ -71,13 +71,13 @@ void rndDrawRect(int x, int y, int width, int height, char color) {
     }
 }
 
-void rndDrawTri(int x0, int y0, int x1, int y1, int x2, int y2, char color) {
+void rndDrawTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color) {
     rndBresenham(x0, y0, x1, y1, color);
     rndBresenham(x1, y1, x2, y2, color);
     rndBresenham(x2, y2, x0, y0, color);
 }
 
-void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, char color) {
+void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color) {
     int xmin = max(0, min(min(x0, x1), x2));
     int ymin = max(0, min(min(y0, y1), y2));
     int xmax = min(319, max(max(x0, x1), x2));
