@@ -2,6 +2,8 @@
 
 3DOS is a low-poly old-school software renderer for MS-DOS written in C and x86 assembly, targeting VGA mode 13h at 320x200 resolution.  You can download the `EXE` file from [itch.io](https://xms0g.itch.io/3dos).
 
+Built with Borland Turbo C++ 3.0 (DOS) and Turbo Link 5.0.
+
 ## Features
 - Triangle rasterization
 - 3D perspective projection
