@@ -1,7 +1,6 @@
 # 3DOS
 
-3DOS is a low-poly old-school software renderer exploring 3D graphics under the constraints of classic DOS-era hardware and VGA graphics. Built around simple geometry, triangle rasterization, and a limited color palette, it brings low-poly 3D into a deliberately minimal environment.
-You can download the `EXE` file from [itch.io](https://xms0g.itch.io/3dos).
+3DOS is a low-poly old-school software renderer for MS-DOS written in C and x86 assembly. You can download the `EXE` file from [itch.io](https://xms0g.itch.io/3dos).
 
 ## Features
 - **Software rasterization** — render 3D geometry using a CPU-based pipeline.
