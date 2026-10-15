@@ -9,8 +9,8 @@
 - Backface culling
 - Ordered dithering with 4x4 bayer matrix
 - Double buffering
-- Assembly-optimized framebuffer transfer - x86 REP MOVSW with far pointers for copying pixels to VGA memory.
-- Low-level keyboard input — custom interrupt handler with key press and release detection.
+- Assembly-optimized framebuffer transfer - x86 REP MOVSW with far pointers for copying pixels to VGA memory
+- Low-level keyboard input — custom interrupt handler with key press and release detection
 ## Controls
 | Key  | Description |
 |------|-------------|

@@ -14,7 +14,7 @@ static double threshold(int x, int y) {
         15, 7, 13, 5
     };
 
-    return bayer4x4[((y & 3) << 2) | (x & 3)] / 16.0;
+    return bayer4x4[((y & 3) << 2) | (x & 3)] * (1.0 / 16.0);
 }
 
 static unsigned char dithering(int x, int y, unsigned char color, double intensity) {
