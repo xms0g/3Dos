@@ -23,7 +23,6 @@
 <img src="IMG/cube.gif" alt="image" width="700" height="auto">
 <img src="IMG/ico.gif" alt="image" width="700" height="auto">
 <img src="IMG/tree.gif" alt="image" width="700" height="auto">
-<img src="IMG/f22.gif" alt="image" width="700" height="auto">
 <img src="IMG/f22_slow.gif" alt="image" width="700" height="auto">
 
 ## License
