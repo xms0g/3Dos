@@ -22,7 +22,7 @@ static unsigned char dithering(int x, int y, unsigned char color, double intensi
     int lo = floor(scaled);
     int hi = lo < SHADE_LEVELS - 1 ? ceil(scaled) : lo;
 
-    double frac = (scaled - lo);
+    double frac = scaled - lo;
     int level = frac > threshold(x, y) ? hi : lo;
 
     return shadePalette[color][level];
