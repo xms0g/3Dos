@@ -10,7 +10,7 @@ You can download the `EXE` file from [itch.io](https://xms0g.itch.io/3dos).
 - **VGA Mode 13h** — target the classic 320 × 200, 256-color graphics mode.
 - **Palette-based rendering** — work within a fixed color palette.
 - **Ordered dithering** — experiment with Bayer matrices for lighting and color quantization.
-- **Double buffering**
+- **Double buffering** - render frames to an off-screen buffer before displaying them to reduce flicker.
 
 ## Controls
 | Key  | Description |
