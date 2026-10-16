@@ -64,6 +64,8 @@ static void update() {
     Vec3 cameraRay;
     Mat3 rotMat;
     Triangle projectedTriangle;
+
+    cvClear(&triangles);
     
     // Rotate the scene
     vecAdd(&rot, &rot, &scene.rot);
@@ -143,8 +145,6 @@ static void render(void) {
             tri->lightIntensity
         );  
     }
-
-   	cvClear(&triangles);
 
     vgaUpdateVram();
 }
