@@ -76,12 +76,12 @@ static void update() {
         Vec3 transformedVertex;
         const Vec3 vertex = scene.vertices[i];
 
-        // Rotate the vertex around the cube's center
+        // Rotate the vertex
         mtxMulVec3(&transformedVertex, &rotMat, &vertex);
 
         // Translate the vertex away from the camera
-        transformedVertex.z = transformedVertex.z - cameraPos.z;
-
+        vecSub(&transformedVertex, &transformedVertex, &cameraPos);
+        
         // Save transformed vertex in the array of transformed vertices
         scene.transformedVertices[i] = transformedVertex;
     }
@@ -106,14 +106,10 @@ static void update() {
 
         for (j = 0; j < 3; ++j) {
             Vec2 pv;
-            Vec3 cameraView;
             const Vec3 fv = scene.faceVertices[j];
             
-            // Convert points to camera's local coordinate system
-            vecSub(&cameraView, &fv, &cameraPos);
-            
             // Project the points onto the screen
-            vecProject(&pv, &cameraView, FOV_FACTOR);
+            vecProject(&pv, &fv, FOV_FACTOR);
             pv.x += HALF_WIDTH;
             pv.y += HALF_HEIGHT;
             
