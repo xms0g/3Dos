@@ -5,7 +5,7 @@
 
 #define TWO_PI 6.283185307179586
 
-#define absf(v) (v < 0 ? 0 - v : v)
+#define abs(v) (v < 0 ? 0 - v : v)
 
 #define ceil(v) ((int)v + 1)
 

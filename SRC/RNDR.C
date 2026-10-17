@@ -43,7 +43,7 @@ void rndDDA(int x0, int y0, int x1, int y1, unsigned char color) {
     int dx = x1 - x0;
     int dy = y1 - y0;
 
-    int step = (absf(dx) >= absf(dy)) ? absf(dx) : absf(dy);
+    int step = (abs(dx) >= abs(dy)) ? abs(dx) : abs(dy);
 
     float xinc = dx / (float)(step);
     float yinc = dy / (float)(step);
@@ -61,9 +61,9 @@ void rndDDA(int x0, int y0, int x1, int y1, unsigned char color) {
 }
 
 void rndBresenham(int x0, int y0, int x1, int y1, unsigned char color) {
-    int dx = absf(x1 - x0);
+    int dx = abs(x1 - x0);
     int sx = x0 < x1 ? 1 : -1;
-    int dy = absf(y1 - y0);
+    int dy = abs(y1 - y0);
     int sy = y0 < y1 ? 1 : -1; 
     int err = (dx > dy ? dx : -dy)/2;
     int e2;
