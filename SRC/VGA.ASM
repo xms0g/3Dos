@@ -15,7 +15,7 @@ public __vgaBlit
 ; void _Cdecl __vgaInit(void)                                        ;
 ; --------------------------------------------------------------------
 __vgaInit proc
-    mov	word ptr vram + 2, 0A000h
+    mov	word ptr vram[2], 0A000h
 	mov	word ptr vram, 0
     xor	ax, ax
 	mov	dx, 64000
@@ -24,9 +24,9 @@ __vgaInit proc
 	call _farmalloc
 	pop	cx
 	pop	cx
-	mov	word ptr offscreen + 2, dx
+	mov	word ptr offscreen[2], dx
 	mov	word ptr offscreen, ax
-	or ax, word ptr offscreen + 2
+	or ax, word ptr offscreen[2]
 	je error
     
     push di
@@ -48,7 +48,7 @@ __vgaInit endp
 ; void _Cdecl __vgaExit(void)                                        ;
 ; --------------------------------------------------------------------
 __vgaExit proc
-    push word ptr offscreen + 2
+    push word ptr offscreen[2]
 	push word ptr offscreen
 	call _farfree
 	pop	cx
