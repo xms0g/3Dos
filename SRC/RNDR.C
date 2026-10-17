@@ -33,7 +33,7 @@ void rndPutchar(int x, int y, unsigned char color, const int (*font)[5][5]) {
     for (i = 0; i < 5; ++i) {
         for (j = 0; j < 5; ++j) {
             if ((*font)[j][i]) {
-                vgaPutPixel(x + i, y + j, color);
+                _vgaPutPixel(x + i, y + j, color);
             }
         }
     }
@@ -53,7 +53,7 @@ void rndDDA(int x0, int y0, int x1, int y1, unsigned char color) {
 
     int i;
     for (i = 0; i < step; ++i) {
-        vgaPutPixel(round(x), round(y), color);
+        _vgaPutPixel(round(x), round(y), color);
         
         x += xinc;
         y += yinc;
@@ -69,7 +69,7 @@ void rndBresenham(int x0, int y0, int x1, int y1, unsigned char color) {
     int e2;
 
     while (x0 != x1 || y0 != y1) {
-        vgaPutPixel(x0, y0, color);
+        _vgaPutPixel(x0, y0, color);
         
         e2 = err;
         
@@ -89,7 +89,7 @@ void rndDrawRect(int x, int y, int width, int height, unsigned char color) {
     int i, j;
     for (i = 0; i < width; i++) {
         for (j = 0; j < height; j++) {
-            vgaPutPixel(x + i, y + j, color);
+            _vgaPutPixel(x + i, y + j, color);
         }
     }
 }
@@ -133,7 +133,7 @@ void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned c
         
         for (x = xmin; x <= xmax; ++x) {
             if ((w0 | w1 | w2 ) >= 0) {
-                vgaPutPixel(x, y, dithering(x, y, color, lightIntensity));
+                _vgaPutPixel(x, y, dithering(x, y, color, lightIntensity));
             }
 
             w0 += delta_w0_col;

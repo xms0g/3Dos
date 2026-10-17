@@ -1,14 +1,16 @@
 #ifndef VGA_H
 #define VGA_H
 
-void vgaInit(void);
+#include <_defs.h>
 
-void vgaExit(void);
+void _Cdecl _vgaInit(void);
+
+void _Cdecl _vgaExit(void);
   
-void vgaPutPixel(int x, int y, char color);
+void _Cdecl _vgaPutPixel(int x, int y, unsigned char color);
 
-void vgaClearOffscreen(char color);
+void _Cdecl _vgaClearOffscreen(unsigned char color);
 
-void vgaUpdateVram(void);
+void _Cdecl _vgaBlit(void);
 
 #endif

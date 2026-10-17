@@ -157,7 +157,7 @@ static void update() {
 static void render(void) {
     int i;
 
-    vgaClearOffscreen(0x03);
+    _vgaClearOffscreen(0x03);
 
     for (i = 0; i < triangles.count; ++i) {
         const Triangle* tri = (Triangle*)cvAt(&triangles, i);
@@ -172,7 +172,7 @@ static void render(void) {
         );  
     }
 
-    vgaUpdateVram();
+    _vgaBlit();
 }
 
 void main(void) {
@@ -194,7 +194,7 @@ void main(void) {
 
     isRunning = 1;
 
-    vgaInit();
+    _vgaInit();
     kbInit();
 
 	cvInit(&triangles, 10, sizeof(Triangle));
@@ -210,6 +210,6 @@ void main(void) {
 	cvFree(&triangles);
     free(scene.transformedVertices);
 
-    vgaExit();
+    _vgaExit();
     kbExit();
 }
