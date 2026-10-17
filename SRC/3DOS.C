@@ -27,33 +27,33 @@ static int isRunning;
 static Scene scene;
 
 static void processInput(void) {
-    if (kbHit(ESC)) {
+    if (_kbHit(ESC)) {
         isRunning = 0;
-    } else if (kbHit(W)) {
+    } else if (_kbHit(W)) {
         cameraPos.z -= 0.1; 
-    } else if (kbHit(S)) {
+    } else if (_kbHit(S)) {
         cameraPos.z += 0.1; 
-    } else if (kbHit(A)) {
+    } else if (_kbHit(A)) {
         cameraPos.x += 0.1; 
-    } else if (kbHit(D)) {
+    } else if (_kbHit(D)) {
         cameraPos.x -= 0.1;
-    } else if (kbHit(U_ARROW)) {
+    } else if (_kbHit(U_ARROW)) {
         cameraPos.y += 0.1;
-    } else if (kbHit(D_ARROW)) {
+    } else if (_kbHit(D_ARROW)) {
         cameraPos.y -= 0.1;
-    } else if (kbHit(NUM_1)) {
+    } else if (_kbHit(NUM_1)) {
         free(scene.transformedVertices);
         vecZero(&rot);
         scene = cube();
-    } else if (kbHit(NUM_2)) {
+    } else if (_kbHit(NUM_2)) {
         free(scene.transformedVertices);
         vecZero(&rot);
         scene = icosahedron();
-    } else if (kbHit(NUM_3)) {
+    } else if (_kbHit(NUM_3)) {
         free(scene.transformedVertices);
         vecZero(&rot);
         scene = tree();
-    } else if (kbHit(NUM_4)) {
+    } else if (_kbHit(NUM_4)) {
         free(scene.transformedVertices);
         vecZero(&rot);
         scene = f22();
@@ -195,7 +195,7 @@ void main(void) {
     isRunning = 1;
 
     _vgaInit();
-    kbInit();
+    _kbInit();
 
 	cvInit(&triangles, 10, sizeof(Triangle));
     initSinCosLUT();
@@ -211,5 +211,5 @@ void main(void) {
     free(scene.transformedVertices);
 
     _vgaExit();
-    kbExit();
+    _kbExit();
 }

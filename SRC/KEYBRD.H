@@ -1,6 +1,8 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
+#include <_defs.h>
+
 typedef enum {
     R_ARROW = 0x4D,
     L_ARROW = 0x4B,
@@ -17,11 +19,11 @@ typedef enum {
     ESC     = 0x01
 } KeyCode;
 
-void kbInit(void);
+void _Cdecl _kbInit(void);
 
-void kbExit(void);
+void _Cdecl _kbExit(void);
 
-int kbHit(KeyCode key);
+int _Cdecl _kbHit(KeyCode key);
 
 #endif
 
