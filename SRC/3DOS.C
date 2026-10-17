@@ -20,6 +20,7 @@
 
 static Vec3 rot;
 static Vec3 cameraPos;
+static Vec3 cameraOrig;
 static Vec3 lightDir;
 static CVEC triangles;
 static int isRunning;
@@ -89,6 +90,7 @@ static void update() {
     for (i = 0; i < scene.faceCount; ++i) {
         Vec3 transformedNormal;
         double lightIntensity;
+        double avgDepth;
         const Face f = scene.faces[i];
 
         // Rotate the face normal
@@ -98,7 +100,7 @@ static void update() {
         scene.faceVertices[1] = scene.transformedVertices[f.b];
         scene.faceVertices[2] = scene.transformedVertices[f.c];
 
-        vecSub(&cameraRay, &cameraPos, &scene.faceVertices[0]);
+        vecSub(&cameraRay, &cameraOrig, &scene.faceVertices[0]);
 
         // Backface Culling
         if (vecDot(&transformedNormal, &cameraRay) < 0) 
@@ -110,17 +112,45 @@ static void update() {
             
             // Project the points onto the screen
             vecProject(&pv, &fv, FOV_FACTOR);
+            
             pv.x += HALF_WIDTH;
             pv.y += HALF_HEIGHT;
             
             projectedTriangle.points[j] = pv;
         }
 
+        avgDepth = (scene.faceVertices[0].z + scene.faceVertices[1].z + scene.faceVertices[2].z) / 3.0;
+        projectedTriangle.avgDepth = avgDepth;
+        
         lightIntensity = vecDot(&transformedNormal, &lightDir);
-        projectedTriangle.lightIntensity = clamp(lightIntensity, 0.0, 1.0);
+        projectedTriangle.lightIntensity = clamp(abs(lightIntensity), 0.0, 1.0);
+        
         projectedTriangle.color = f.color;
         
 		cvPushback(&triangles, &projectedTriangle);
+    }
+
+    // Painter's algorithm.Sorting ascending order because camera looks along -Z
+    for (i = 1; i < triangles.count; ++i) {
+        Triangle *tj;
+        Triangle *tjNext;
+        Triangle key = *(Triangle *)cvAt(&triangles, i);
+
+        j = i - 1;
+
+        while (j >= 0) {
+            tj = (Triangle *)cvAt(&triangles, j);
+
+            if (tj->avgDepth < key.avgDepth)
+                break;
+
+            tjNext = (Triangle *)cvAt(&triangles, j + 1);
+            *tjNext = *tj;
+            --j;
+        }
+
+        tjNext = (Triangle *)cvAt(&triangles, j + 1);
+        *tjNext = key;
     }    
 }
 
@@ -150,9 +180,13 @@ void main(void) {
     cameraPos.y = 0.0;
 	cameraPos.z = 5.0;
 
+    cameraOrig.x = 0.0;
+    cameraOrig.y = 0.0;
+	cameraOrig.z = 0.0;
+
     lightDir.x = 0.0;
     lightDir.y = 0.0;
-    lightDir.z = 1.0;
+    lightDir.z = -1.0;
     
     rot.x = 0.0;
     rot.y = 0.0;
