@@ -101,31 +101,41 @@ void rnd_draw_tri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char 
 }
 
 void rnd_draw_filled_tri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color, double light_intensity) {
-    int xmin = max(0, min(min(x0, x1), x2));
-    int ymin = max(0, min(min(y0, y1), y2));
-    int xmax = min(319, max(max(x0, x1), x2));
-    int ymax = min(199, max(max(y0, y1), y2));
+    int xmin,ymin,xmax,ymax;
+    int delta_w0_col,delta_w1_col,delta_w2_col;
+    int delta_w0_row,delta_w1_row,delta_w2_row;
+    int bias0,bias1,bias2;
+    int x,y,px,py;
+    int w0_row,w1_row,w2_row;
 
-    int delta_w0_col = y1 - y2;
-    int delta_w1_col = y2 - y0;
-    int delta_w2_col = y0 - y1;
+    int area = edgeFunction(x0, y0, x1, y1, x2, y2);
+    if (area <= 0)
+        return;
 
-    int delta_w0_row = x2 - x1;
-    int delta_w1_row = x0 - x2;
-    int delta_w2_row = x1 - x0;
+    xmin = max(0, min(min(x0, x1), x2));
+    ymin = max(0, min(min(y0, y1), y2));
+    xmax = min(319, max(max(x0, x1), x2));
+    ymax = min(199, max(max(y0, y1), y2));
 
-    int bias0 = isTopLeft(x1, y1, x2, y2) ? 0 : -1;
-    int bias1 = isTopLeft(x2, y2, x0, y0) ? 0 : -1;
-    int bias2 = isTopLeft(x0, y0, x1, y1) ? 0 : -1;
+    px = xmin;
+    py = ymin;
 
-    int px = xmin;
-    int py = ymin;
+    delta_w0_col = y1 - y2;
+    delta_w1_col = y2 - y0;
+    delta_w2_col = y0 - y1;
 
-    int w0_row = edgeFunction(x1, y1, x2, y2, px, py) + bias0;
-    int w1_row = edgeFunction(x2, y2, x0, y0, px, py) + bias1;
-    int w2_row = edgeFunction(x0, y0, x1, y1, px, py) + bias2;
+    delta_w0_row = x2 - x1;
+    delta_w1_row = x0 - x2;
+    delta_w2_row = x1 - x0;
 
-    int y, x;
+    bias0 = isTopLeft(x1, y1, x2, y2) ? 0 : -1;
+    bias1 = isTopLeft(x2, y2, x0, y0) ? 0 : -1;
+    bias2 = isTopLeft(x0, y0, x1, y1) ? 0 : -1;
+
+    w0_row = edgeFunction(x1, y1, x2, y2, px, py) + bias0;
+    w1_row = edgeFunction(x2, y2, x0, y0, px, py) + bias1;
+    w2_row = edgeFunction(x0, y0, x1, y1, px, py) + bias2;
+
     for (y = ymin; y <= ymax; ++y) {
         int w0 = w0_row;
         int w1 = w1_row;
