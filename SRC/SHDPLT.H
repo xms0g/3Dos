@@ -3,7 +3,7 @@
 
 #define SHADE_LEVELS 3
 
-static const unsigned char shadePalette[256][SHADE_LEVELS] = {
+static const unsigned char shade_palette[256][SHADE_LEVELS] = {
     { 0x00, 0x00, 0x00 }, // 0x00
     { 0xB0, 0x68, 0x01 }, // 0x01
     { 0xC0, 0x78, 0x02 }, // 0x02

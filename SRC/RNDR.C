@@ -25,21 +25,21 @@ static unsigned char dithering(int x, int y, unsigned char color, double intensi
     double frac = scaled - lo;
     int level = frac > threshold(x, y) ? hi : lo;
 
-    return shadePalette[color][level];
+    return shade_palette[color][level];
 }
 
-void rndPutchar(int x, int y, unsigned char color, const int (*font)[5][5]) {
+void rnd_putchar(int x, int y, unsigned char color, const int (*font)[5][5]) {
     int i, j;
     for (i = 0; i < 5; ++i) {
         for (j = 0; j < 5; ++j) {
             if ((*font)[j][i]) {
-                _vgaPutPixel(x + i, y + j, color);
+                _vga_put_pixel(x + i, y + j, color);
             }
         }
     }
 }
 
-void rndDDA(int x0, int y0, int x1, int y1, unsigned char color) {
+void rnd_dda(int x0, int y0, int x1, int y1, unsigned char color) {
     int dx = x1 - x0;
     int dy = y1 - y0;
 
@@ -53,14 +53,14 @@ void rndDDA(int x0, int y0, int x1, int y1, unsigned char color) {
 
     int i;
     for (i = 0; i < step; ++i) {
-        _vgaPutPixel(round(x), round(y), color);
+        _vga_put_pixel(round(x), round(y), color);
         
         x += xinc;
         y += yinc;
     }
 }
 
-void rndBresenham(int x0, int y0, int x1, int y1, unsigned char color) {
+void rnd_bresenham(int x0, int y0, int x1, int y1, unsigned char color) {
     int dx = abs(x1 - x0);
     int sx = x0 < x1 ? 1 : -1;
     int dy = abs(y1 - y0);
@@ -69,7 +69,7 @@ void rndBresenham(int x0, int y0, int x1, int y1, unsigned char color) {
     int e2;
 
     while (x0 != x1 || y0 != y1) {
-        _vgaPutPixel(x0, y0, color);
+        _vga_put_pixel(x0, y0, color);
         
         e2 = err;
         
@@ -85,22 +85,22 @@ void rndBresenham(int x0, int y0, int x1, int y1, unsigned char color) {
     }
 }
 
-void rndDrawRect(int x, int y, int width, int height, unsigned char color) {
+void rnd_draw_rect(int x, int y, int width, int height, unsigned char color) {
     int i, j;
     for (i = 0; i < width; i++) {
         for (j = 0; j < height; j++) {
-            _vgaPutPixel(x + i, y + j, color);
+            _vga_put_pixel(x + i, y + j, color);
         }
     }
 }
 
-void rndDrawTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color) {
-    rndBresenham(x0, y0, x1, y1, color);
-    rndBresenham(x1, y1, x2, y2, color);
-    rndBresenham(x2, y2, x0, y0, color);
+void rnd_draw_tri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color) {
+    rnd_bresenham(x0, y0, x1, y1, color);
+    rnd_bresenham(x1, y1, x2, y2, color);
+    rnd_bresenham(x2, y2, x0, y0, color);
 }
 
-void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color, double lightIntensity) {
+void rnd_draw_filled_tri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned char color, double light_intensity) {
     int xmin = max(0, min(min(x0, x1), x2));
     int ymin = max(0, min(min(y0, y1), y2));
     int xmax = min(319, max(max(x0, x1), x2));
@@ -133,7 +133,7 @@ void rndDrawFilledTri(int x0, int y0, int x1, int y1, int x2, int y2, unsigned c
         
         for (x = xmin; x <= xmax; ++x) {
             if ((w0 | w1 | w2 ) >= 0) {
-                _vgaPutPixel(x, y, dithering(x, y, color, lightIntensity));
+                _vga_put_pixel(x, y, dithering(x, y, color, light_intensity));
             }
 
             w0 += delta_w0_col;

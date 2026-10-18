@@ -21,12 +21,12 @@
 
 #define max(n0, n1) (n1 ^ ((n0 ^ n1) & -(n0 > n1)))
 
-double invSqrt(double n);
+double inv_sqrt(double n);
 
-void initSinCosLUT(void);
+void init_sincos_lut(void);
 
-double sinLUT(double angle);
+double sin_lut(double angle);
 
-double cosLUT(double angle);
+double cos_lut(double angle);
 
 #endif

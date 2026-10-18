@@ -4,18 +4,18 @@
 typedef struct {    
     int count;      
     int capacity;
-    int itemSize;   
+    int item_size;   
     void* data;     
-} CVEC;   
+} cvec;   
 
-int cvInit(CVEC* cv, int capacity, int itemSize);
+int cv_init(cvec* cv, int capacity, int item_size);
 
-int cvPushback(CVEC* cv, void* item);
+int cv_pushback(cvec* cv, void* item);
 
-void* cvAt(CVEC* cv, int index);
+void* cv_at(cvec* cv, int index);
 
-void cvClear(CVEC* cv);
+void cv_clear(cvec* cv);
 
-void cvFree(CVEC* cv);
+void cv_free(cvec* cv);
 
 #endif

@@ -3,8 +3,8 @@
 
 #include "scene.h"
 
-Scene tree() {
-    static const Vec3 vertices[28] = {
+scene tree() {
+    static const vec3 vertices[28] = {
         // Trunk: 0-7
         {-0.18f, 0.00f, -0.18f}, //  0
         { 0.18f, 0.00f, -0.18f}, //  1
@@ -45,7 +45,7 @@ Scene tree() {
     };
 
 
-    static const Face faces[] = {
+    static const face faces[] = {
         // Trunk: front
         {0, 4, 5, 0x06, {0, 0, -1}},
         {0, 5, 1, 0x06, {0, 0, -1}},
@@ -87,14 +87,14 @@ Scene tree() {
         {26, 27, 23, 0x0A, {-1, 0, 0}}
     };
 
-    Scene scene;
-    int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
-    int faceCount = sizeof(faces) / sizeof(faces[0]);
-    scene.vertices = (Vec3*)vertices;
-    scene.transformedVertices = (Vec3*)malloc(sizeof(Vec3) * vertexCount);
-    scene.faces = (Face*)faces;
-    scene.vertexCount = vertexCount;
-    scene.faceCount = faceCount;
+    scene scene;
+    int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
+    int face_count = sizeof(faces) / sizeof(faces[0]);
+    scene.vertices = (vec3*)vertices;
+    scene.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
+    scene.faces = (face*)faces;
+    scene.vertex_count = vertex_count;
+    scene.face_count = face_count;
     scene.rot.x = 0.0; // Set rotation speed for x-axis
     scene.rot.y = 0.03; // Set rotation speed for y-axis
     scene.rot.z = 0.0; // Set rotation speed for z-axis

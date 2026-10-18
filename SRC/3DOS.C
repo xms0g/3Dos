@@ -1,4 +1,4 @@
-#include "vec.h"
+#include "vec3.h"
 #include "matx.h"
 #include "math.h"
 #include "vga.h"
@@ -18,138 +18,138 @@
 #define HALF_HEIGHT 100
 #define FOV_FACTOR 280
 
-static Vec3 rot;
-static Vec3 cameraPos;
-static Vec3 cameraOrig;
-static Vec3 lightDir;
-static CVEC triangles;
-static int isRunning;
-static Scene scene;
+static vec3 rot;
+static vec3 camera_pos;
+static vec3 camera_orig;
+static vec3 light_dir;
+static cvec triangles;
+static int is_running;
+static scene sc;
 
-static void processInput(void) {
-    if (_kbHit(ESC)) {
-        isRunning = 0;
-    } else if (_kbHit(W)) {
-        cameraPos.z -= 0.1; 
-    } else if (_kbHit(S)) {
-        cameraPos.z += 0.1; 
-    } else if (_kbHit(A)) {
-        cameraPos.x += 0.1; 
-    } else if (_kbHit(D)) {
-        cameraPos.x -= 0.1;
-    } else if (_kbHit(U_ARROW)) {
-        cameraPos.y += 0.1;
-    } else if (_kbHit(D_ARROW)) {
-        cameraPos.y -= 0.1;
-    } else if (_kbHit(NUM_1)) {
-        free(scene.transformedVertices);
-        vecZero(&rot);
-        scene = cube();
-    } else if (_kbHit(NUM_2)) {
-        free(scene.transformedVertices);
-        vecZero(&rot);
-        scene = icosahedron();
-    } else if (_kbHit(NUM_3)) {
-        free(scene.transformedVertices);
-        vecZero(&rot);
-        scene = tree();
-    } else if (_kbHit(NUM_4)) {
-        free(scene.transformedVertices);
-        vecZero(&rot);
-        scene = f22();
+static void process_input(void) {
+    if (_kb_hit(ESC)) {
+        is_running = 0;
+    } else if (_kb_hit(W)) {
+        camera_pos.z -= 0.1; 
+    } else if (_kb_hit(S)) {
+        camera_pos.z += 0.1; 
+    } else if (_kb_hit(A)) {
+        camera_pos.x += 0.1; 
+    } else if (_kb_hit(D)) {
+        camera_pos.x -= 0.1;
+    } else if (_kb_hit(U_ARROW)) {
+        camera_pos.y += 0.1;
+    } else if (_kb_hit(D_ARROW)) {
+        camera_pos.y -= 0.1;
+    } else if (_kb_hit(NUM_1)) {
+        free(sc.transformed_vertices);
+        vec3_zero(&rot);
+        sc = cube();
+    } else if (_kb_hit(NUM_2)) {
+        free(sc.transformed_vertices);
+        vec3_zero(&rot);
+        sc = icosahedron();
+    } else if (_kb_hit(NUM_3)) {
+        free(sc.transformed_vertices);
+        vec3_zero(&rot);
+        sc = tree();
+    } else if (_kb_hit(NUM_4)) {
+        free(sc.transformed_vertices);
+        vec3_zero(&rot);
+        sc = f22();
     }
 }
 
 static void update() {
     int i, j;
-    Vec3 cameraRay;
-    Mat3 rotMat;
-    Triangle projectedTriangle;
+    vec3 camera_ray;
+    mat3 rot_mat;
+    triangle projected_triangle;
 
-    cvClear(&triangles);
+    cv_clear(&triangles);
     
     // Rotate the scene
-    vecAdd(&rot, &rot, &scene.rot);
-    vecWrap(&rot, TWO_PI);
-    mtxRot(&rotMat, &rot);
+    vec3_add(&rot, &rot, &sc.rot);
+    vec3_wrap(&rot, TWO_PI);
+    mtx_rot(&rot_mat, &rot);
 
-    for (i = 0; i < scene.vertexCount; ++i) {
-        Vec3 transformedVertex;
-        const Vec3 vertex = scene.vertices[i];
+    for (i = 0; i < sc.vertex_count; ++i) {
+        vec3 transformed_vertex;
+        const vec3 vertex = sc.vertices[i];
 
         // Rotate the vertex
-        mtxMulVec3(&transformedVertex, &rotMat, &vertex);
+        mtx_mul_vec3(&transformed_vertex, &rot_mat, &vertex);
 
         // Translate the vertex away from the camera
-        vecSub(&transformedVertex, &transformedVertex, &cameraPos);
+        vec3_sub(&transformed_vertex, &transformed_vertex, &camera_pos);
         
         // Save transformed vertex in the array of transformed vertices
-        scene.transformedVertices[i] = transformedVertex;
+        sc.transformed_vertices[i] = transformed_vertex;
     }
 
-    for (i = 0; i < scene.faceCount; ++i) {
-        Vec3 transformedNormal;
-        double lightIntensity;
-        double avgDepth;
-        const Face f = scene.faces[i];
+    for (i = 0; i < sc.face_count; ++i) {
+        vec3 transformed_normal;
+        double light_intensity;
+        double avg_depth;
+        const face f = sc.faces[i];
 
         // Rotate the face normal
-        mtxMulVec3(&transformedNormal, &rotMat, &f.normal);
+        mtx_mul_vec3(&transformed_normal, &rot_mat, &f.normal);
 
-        scene.faceVertices[0] = scene.transformedVertices[f.a];
-        scene.faceVertices[1] = scene.transformedVertices[f.b];
-        scene.faceVertices[2] = scene.transformedVertices[f.c];
+        sc.face_vertices[0] = sc.transformed_vertices[f.a];
+        sc.face_vertices[1] = sc.transformed_vertices[f.b];
+        sc.face_vertices[2] = sc.transformed_vertices[f.c];
 
-        vecSub(&cameraRay, &cameraOrig, &scene.faceVertices[0]);
+        vec3_sub(&camera_ray, &camera_orig, &sc.face_vertices[0]);
 
         // Backface Culling
-        if (vecDot(&transformedNormal, &cameraRay) < 0) 
+        if (vec3_dot(&transformed_normal, &camera_ray) < 0) 
             continue;
 
         for (j = 0; j < 3; ++j) {
-            Vec2 pv;
-            const Vec3 fv = scene.faceVertices[j];
+            vec2 pv;
+            const vec3 fv = sc.face_vertices[j];
             
             // Project the points onto the screen
-            vecProject(&pv, &fv, FOV_FACTOR);
+            vec3_project(&pv, &fv, FOV_FACTOR);
             
             pv.x += HALF_WIDTH;
             pv.y += HALF_HEIGHT;
             
-            projectedTriangle.points[j] = pv;
+            projected_triangle.points[j] = pv;
         }
 
-        avgDepth = (scene.faceVertices[0].z + scene.faceVertices[1].z + scene.faceVertices[2].z) / 3.0;
-        projectedTriangle.avgDepth = avgDepth;
+        avg_depth = (sc.face_vertices[0].z + sc.face_vertices[1].z + sc.face_vertices[2].z) / 3.0;
+        projected_triangle.avg_depth = avg_depth;
         
-        lightIntensity = vecDot(&transformedNormal, &lightDir);
-        projectedTriangle.lightIntensity = clamp(abs(lightIntensity), 0.0, 1.0);
+        light_intensity = vec3_dot(&transformed_normal, &light_dir);
+        projected_triangle.light_intensity = clamp(abs(light_intensity), 0.0, 1.0);
         
-        projectedTriangle.color = f.color;
+        projected_triangle.color = f.color;
         
-		cvPushback(&triangles, &projectedTriangle);
+		cv_pushback(&triangles, &projected_triangle);
     }
 
     // Painter's algorithm.Sorting ascending order because camera looks along -Z
     for (i = 1; i < triangles.count; ++i) {
-        Triangle *tj;
-        Triangle *tjNext;
-        Triangle key = *(Triangle *)cvAt(&triangles, i);
+        triangle *tj;
+        triangle *tjNext;
+        triangle key = *(triangle *)cv_at(&triangles, i);
 
         j = i - 1;
 
         while (j >= 0) {
-            tj = (Triangle *)cvAt(&triangles, j);
+            tj = (triangle *)cv_at(&triangles, j);
 
-            if (tj->avgDepth < key.avgDepth)
+            if (tj->avg_depth < key.avg_depth)
                 break;
 
-            tjNext = (Triangle *)cvAt(&triangles, j + 1);
+            tjNext = (triangle *)cv_at(&triangles, j + 1);
             *tjNext = *tj;
             --j;
         }
 
-        tjNext = (Triangle *)cvAt(&triangles, j + 1);
+        tjNext = (triangle *)cv_at(&triangles, j + 1);
         *tjNext = key;
     }    
 }
@@ -157,59 +157,59 @@ static void update() {
 static void render(void) {
     int i;
 
-    _vgaClearOffscreen(0x03);
+    _vga_clr_offscreen(0x03);
 
     for (i = 0; i < triangles.count; ++i) {
-        const Triangle* tri = (Triangle*)cvAt(&triangles, i);
+        const triangle* tri = (triangle*)cv_at(&triangles, i);
 
         // Draw filled triangle
-        rndDrawFilledTri(
+        rnd_draw_filled_tri(
             tri->points[0].x, tri->points[0].y, // vertex A
             tri->points[1].x, tri->points[1].y, // vertex B
             tri->points[2].x, tri->points[2].y, // vertex C
             tri->color,
-            tri->lightIntensity
+            tri->light_intensity
         );  
     }
 
-    _vgaBlit();
+    _vga_blit();
 }
 
 void main(void) {
-    cameraPos.x = 0.0;
-    cameraPos.y = 0.0;
-	cameraPos.z = 5.0;
+    camera_pos.x = 0.0;
+    camera_pos.y = 0.0;
+	camera_pos.z = 5.0;
 
-    cameraOrig.x = 0.0;
-    cameraOrig.y = 0.0;
-	cameraOrig.z = 0.0;
+    camera_orig.x = 0.0;
+    camera_orig.y = 0.0;
+	camera_orig.z = 0.0;
 
-    lightDir.x = 0.0;
-    lightDir.y = 0.0;
-    lightDir.z = -1.0;
+    light_dir.x = 0.0;
+    light_dir.y = 0.0;
+    light_dir.z = -1.0;
     
     rot.x = 0.0;
     rot.y = 0.0;
     rot.z = 0.0;
 
-    isRunning = 1;
+    is_running = 1;
 
-    _vgaInit();
-    _kbInit();
+    _vga_init();
+    _kb_init();
 
-	cvInit(&triangles, 10, sizeof(Triangle));
-    initSinCosLUT();
+	cv_init(&triangles, 10, sizeof(triangle));
+    init_sincos_lut();
 
-    scene = cube(); // Start with the cube scene
-	while (isRunning) {
-        processInput();
+    sc = cube(); // Start with the cube scene
+	while (is_running) {
+        process_input();
         update();
         render();
     }
 
-	cvFree(&triangles);
-    free(scene.transformedVertices);
+	cv_free(&triangles);
+    free(sc.transformed_vertices);
 
-    _vgaExit();
-    _kbExit();
+    _vga_exit();
+    _kb_exit();
 }

@@ -2,10 +2,17 @@
 
 #define LUT_SIZE 2048
 
-static double sinTable[LUT_SIZE];
-static double cosTable[LUT_SIZE];
+static double sin_table[LUT_SIZE];
+static double cos_table[LUT_SIZE];
 
-double invSqrt(double n) {
+static int calculate_index(double angle) {
+    int idx = (int)(angle * (LUT_SIZE / TWO_PI));
+    if (idx < 0) idx = 0;
+    if (idx >= LUT_SIZE) idx = LUT_SIZE - 1;
+    return idx;
+}
+
+double inv_sqrt(double n) {
     long i;
     float x2, y;
 
@@ -20,29 +27,22 @@ double invSqrt(double n) {
     return y;
 }
 
-void initSinCosLUT(void) {
+void init_sincos_lut(void) {
     int i;
     // This function can be used to initialize any sine/cosine lookup tables if needed.
     // Currently, it does nothing as we are using the standard library functions.
 
     for (i = 0; i < LUT_SIZE; i++) {
         double rad = (i * TWO_PI) / LUT_SIZE;
-        sinTable[i] = sin(rad);
-        cosTable[i] = cos(rad);
+        sin_table[i] = sin(rad);
+        cos_table[i] = cos(rad);
     }
 }
 
-static int calcIndex(double angle) {
-    int idx = (int)(angle * (LUT_SIZE / TWO_PI));
-    if (idx < 0) idx = 0;
-    if (idx >= LUT_SIZE) idx = LUT_SIZE - 1;
-    return idx;
+double sin_lut(double angle) {
+    return sin_table[calculate_index(angle)];
 }
 
-double sinLUT(double angle) {
-    return sinTable[calcIndex(angle)];
-}
-
-double cosLUT(double angle) {
-    return cosTable[calcIndex(angle)];
+double cos_lut(double angle) {
+    return cos_table[calculate_index(angle)];
 }

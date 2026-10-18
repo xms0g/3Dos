@@ -10,9 +10,9 @@ KBC_SCP     EQU 061h
 KBC_BREAK   EQU 080h
 SCP_KBC_DIS EQU 080h
 .code
-public	__kbHit
-public	__kbExit
-public	__kbInit
+public	__kb_hit
+public	__kb_exit
+public	__kb_init
 
 __kbc_irq_handler proc far
 	push ax
@@ -65,9 +65,9 @@ PRESSED:
 __kbc_irq_handler endp
 
 ; --------------------------------------------------------------------------
-; void _Cdecl _kbInit(void)                                                ; 
+; void _Cdecl _kb_init(void)                                                ; 
 ; --------------------------------------------------------------------------
-__kbInit proc
+__kb_init proc
     push bx
     push es
     ; https://wiki.osdev.org/Interrupt_Vector_Table 
@@ -91,12 +91,12 @@ __kbInit proc
     pop es
     pop bx
     ret
-__kbInit endp
+__kb_init endp
 
 ; --------------------------------------------------------------------------
-; void _Cdecl _kbExit(void)                                          ; 
+; void _Cdecl _kb_exit(void)                                          ; 
 ; --------------------------------------------------------------------------
-__kbExit proc
+__kb_exit proc
     push bx
     push es
     mov bx, KBC_IRQ * 4
@@ -111,12 +111,12 @@ __kbExit proc
     pop  es
     pop  bx
     ret
-__kbExit endp
+__kb_exit endp
 
 ; --------------------------------------------------------------------------
-; void _Cdecl _kbHit(KeyCode key)                                          ; 
+; void _Cdecl _kb_hit(KeyCode key)                                          ; 
 ; --------------------------------------------------------------------------
-__kbHit proc
+__kb_hit proc
     push bp
 	mov	bp, sp
 	push si
@@ -137,5 +137,5 @@ FINAL:
     pop	si
 	pop	bp
     ret
-__kbHit endp
+__kb_hit endp
 end

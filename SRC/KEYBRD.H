@@ -19,11 +19,11 @@ typedef enum {
     ESC     = 0x01
 } KeyCode;
 
-void _Cdecl _kbInit(void);
+void _Cdecl _kb_init(void);
 
-void _Cdecl _kbExit(void);
+void _Cdecl _kb_exit(void);
 
-int _Cdecl _kbHit(KeyCode key);
+int _Cdecl _kb_hit(KeyCode key);
 
 #endif
 

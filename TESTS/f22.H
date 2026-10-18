@@ -3,8 +3,8 @@
 
 #include "scene.h"
 
-Scene f22() {
-    static const Vec3 vertices[102] = {
+scene f22() {
+    static const vec3 vertices[102] = {
         {0.885739, 0.00191, -0.380334},
         {0.322026, 0.03547, -0.433102},
         {-0.907053, 0.017201, -0.352922},
@@ -115,7 +115,7 @@ Scene f22() {
     // 0x01 = blue cockpit
     // 0x04 = red engine accents
 
-    static const Face faces[200] = {
+    static const face faces[200] = {
         {0, 4, 3, 0x07, {0.075248f, 0.955381f, -0.285632f}},
         {4, 86, 87, 0x07, {-0.046422f, 0.958248f, -0.282147f}},
         {3, 87, 5, 0x01, {-0.067153f, 0.733463f, -0.676404f}},
@@ -318,15 +318,15 @@ Scene f22() {
         {43, 47, 44, 0x07, {0.082491f, 0.958934f, 0.271368f}},
     };
 
-    Scene scene;
-    int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
-    int faceCount = sizeof(faces) / sizeof(faces[0]);
+    scene scene;
+    int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
+    int face_count = sizeof(faces) / sizeof(faces[0]);
 
-    scene.vertices = (Vec3*)vertices;
-    scene.transformedVertices = (Vec3*)malloc(sizeof(Vec3) * vertexCount);
-    scene.faces = (Face*)faces;
-    scene.vertexCount = vertexCount;
-    scene.faceCount = faceCount;
+    scene.vertices = (vec3*)vertices;
+    scene.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
+    scene.faces = (face*)faces;
+    scene.vertex_count = vertex_count;
+    scene.face_count = face_count;
 
     scene.rot.x = 0.03f;
     scene.rot.y = 0.03f;

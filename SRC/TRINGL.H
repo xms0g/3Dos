@@ -1,21 +1,21 @@
 #ifndef TRINGL_H
 #define TRINGL_H
 
-#include "vec.h"
+#include "vec3.h"
 
 typedef struct {
     int a;
     int b;
     int c;
     unsigned char color;
-    Vec3 normal;
-} Face;
+    vec3 normal;
+} face;
 
 typedef struct {
-    Vec2 points[3];
+    vec2 points[3];
     unsigned char color;
-    double lightIntensity;
-    double avgDepth;
-} Triangle;
+    double light_intensity;
+    double avg_depth;
+} triangle;
 
 #endif

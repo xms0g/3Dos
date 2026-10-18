@@ -3,8 +3,8 @@
 
 #include "scene.h"
 
-Scene icosahedron() {
-    static const Vec3 vertices[12] = {
+scene icosahedron() {
+    static const vec3 vertices[12] = {
         {-1,   1.61803398875,  0}, // 1
         { 1,   1.61803398875,  0}, // 2
         {-1,  -1.61803398875,  0}, // 3
@@ -19,7 +19,7 @@ Scene icosahedron() {
         {-1.61803398875, 0,    1}, // 12
     };
 
-    static const Face faces[20] = {
+    static const face faces[20] = {
         // Faces around vertex 1
         {0, 11, 5, 0x50, {-0.57735f,  0.57735f,  0.57735f}},
         {0,  5, 1, 0x51, { 0.00000f,  0.93417f,  0.35682f}},
@@ -49,14 +49,14 @@ Scene icosahedron() {
         {9,  8,  1, 0x2C, { 0.93417f,  0.35682f,  0.00000f}},
     };
 
-    Scene scene;
-    int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
-    int faceCount = sizeof(faces) / sizeof(faces[0]);
-    scene.vertices = (Vec3*)vertices;
-    scene.transformedVertices = (Vec3*)malloc(sizeof(Vec3) * vertexCount);
-    scene.faces = (Face*)faces;
-    scene.vertexCount = vertexCount;
-    scene.faceCount = faceCount;
+    scene scene;
+    int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
+    int face_count = sizeof(faces) / sizeof(faces[0]);
+    scene.vertices = (vec3*)vertices;
+    scene.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
+    scene.faces = (face*)faces;
+    scene.vertex_count = vertex_count;
+    scene.face_count = face_count;
     scene.rot.x = 0.03; // Set rotation speed for x-axis
     scene.rot.y = 0.03; // Set rotation speed for y-axis
     scene.rot.z = 0.03; // Set rotation speed for z-axis

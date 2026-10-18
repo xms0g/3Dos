@@ -6,15 +6,15 @@ vram dw 4 dup (?)
 .code
 extrn _farmalloc:near
 extrn _farfree:near
-public __vgaInit
-public __vgaExit
-public __vgaClearOffscreen
-public __vgaPutPixel
-public __vgaBlit
+public __vga_init
+public __vga_exit
+public __vga_clr_offscreen
+public __vga_put_pixel
+public __vga_blit
 ; --------------------------------------------------------------------
-; void _Cdecl __vgaInit(void)                                        ;
+; void _Cdecl __vga_init(void)                                        ;
 ; --------------------------------------------------------------------
-__vgaInit proc
+__vga_init proc
     mov	word ptr vram[2], 0A000h
 	mov	word ptr vram, 0
     xor	ax, ax
@@ -43,11 +43,11 @@ __vgaInit proc
     pop cx
 error:
     ret
-__vgaInit endp
+__vga_init endp
 ; --------------------------------------------------------------------
-; void _Cdecl __vgaExit(void)                                        ;
+; void _Cdecl __vga_exit(void)                                        ;
 ; --------------------------------------------------------------------
-__vgaExit proc
+__vga_exit proc
     push word ptr offscreen[2]
 	push word ptr offscreen
 	call _farfree
@@ -59,11 +59,11 @@ __vgaExit proc
 	call __initMode
 	pop	cx
     ret
-__vgaExit endp
+__vga_exit endp
 ; --------------------------------------------------------------------
-; void _Cdecl __vgaClearOffscreen(unsigned char color)               ;
+; void _Cdecl __vga_clr_offscreen(unsigned char color)               ;
 ; --------------------------------------------------------------------
-__vgaClearOffscreen proc
+__vga_clr_offscreen proc
     push bp
 	mov	bp, sp
 	sub	sp, 2
@@ -92,11 +92,11 @@ __vgaClearOffscreen proc
 	mov	sp, bp
 	pop	bp
     ret
-__vgaClearOffscreen endp
+__vga_clr_offscreen endp
 ; --------------------------------------------------------------------
-; void _Cdecl __vgaPutPixel(int x, int y, char color)                ;
+; void _Cdecl __vga_put_pixel(int x, int y, char color)                ;
 ; --------------------------------------------------------------------
-__vgaPutPixel proc
+__vga_put_pixel proc
     push bp
 	mov	bp, sp
 	push si
@@ -122,7 +122,7 @@ __vgaPutPixel proc
 	pop	si
 	pop	bp
     ret
-__vgaPutPixel endp
+__vga_put_pixel endp
 
 ; --------------------------------------------------------------------
 ; void _Cdecl __initMode(int mode)                                   ;
@@ -162,7 +162,7 @@ __waitvretrace endp
 ; --------------------------------------------------------------------------
 ; void _Cdecl _blit(void)                                                  ; 
 ; --------------------------------------------------------------------------
-__vgaBlit proc
+__vga_blit proc
     call __waitvretrace
     push ds                       
     push si                       
@@ -178,5 +178,5 @@ __vgaBlit proc
     pop si                       
     pop ds
     ret
-__vgaBlit endp
+__vga_blit endp
 end

@@ -3,14 +3,14 @@
 
 #include <_defs.h>
 
-void _Cdecl _vgaInit(void);
+void _Cdecl _vga_init(void);
 
-void _Cdecl _vgaExit(void);
+void _Cdecl _vga_exit(void);
   
-void _Cdecl _vgaPutPixel(int x, int y, unsigned char color);
+void _Cdecl _vga_put_pixel(int x, int y, unsigned char color);
 
-void _Cdecl _vgaClearOffscreen(unsigned char color);
+void _Cdecl _vga_clr_offscreen(unsigned char color);
 
-void _Cdecl _vgaBlit(void);
+void _Cdecl _vga_blit(void);
 
 #endif

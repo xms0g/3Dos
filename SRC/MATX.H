@@ -1,24 +1,24 @@
 #ifndef MATX_H
 #define MATX_H
 
-#include "vec.h"
+#include "vec3.h"
 
 typedef struct {
     double m[3][3];
-} Mat3;
+} mat3;
 
-void mtxIdentity(Mat3* out);
+void mtx_identity(mat3* out);
 
-void mtxRot(Mat3* out, const Vec3* rot);
+void mtx_rot(mat3* out, const vec3* rot);
 
-void mtxRotZ(Mat3* out, double angle);
+void mtx_rot_z(mat3* out, double angle);
 
-void mtxRotY(Mat3* out, double angle);
+void mtx_rot_y(mat3* out, double angle);
 
-void mtxRotX(Mat3* out, double angle);
+void mtx_rot_x(mat3* out, double angle);
 
-void mtxMulVec3(Vec3* out, const Mat3* m, const Vec3* v);
+void mtx_mul_vec3(vec3* out, const mat3* m, const vec3* v);
 
-void mtxMulMat3(Mat3* out, const Mat3* m1, const Mat3* m2);
+void mtx_mul_mat3(mat3* out, const mat3* m1, const mat3* m2);
 
 #endif
