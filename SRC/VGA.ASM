@@ -22,8 +22,7 @@ __vga_init proc
 	push ax
 	push dx
 	call _farmalloc
-	pop	cx
-	pop	cx
+	add sp, 4
 	mov	word ptr offscreen[2], dx
 	mov	word ptr offscreen, ax
 	or ax, word ptr offscreen[2]
@@ -39,8 +38,8 @@ __vga_init proc
 
     mov	ax, 19
 	push ax
-	call __initMode
-    pop cx
+	call __init_mode
+    add sp, 2
 error:
     ret
 __vga_init endp
@@ -51,13 +50,12 @@ __vga_exit proc
     push word ptr offscreen[2]
 	push word ptr offscreen
 	call _farfree
-	pop	cx
-	pop	cx
+	add sp, 4
 
 	mov	ax, 3
 	push ax
-	call __initMode
-	pop	cx
+	call __init_mode
+	add sp, 2
     ret
 __vga_exit endp
 ; --------------------------------------------------------------------
@@ -125,9 +123,9 @@ __vga_put_pixel proc
 __vga_put_pixel endp
 
 ; --------------------------------------------------------------------
-; void _Cdecl __initMode(int mode)                                   ;
+; void _Cdecl __init_mode(int mode)                                   ;
 ; --------------------------------------------------------------------
-__initMode proc
+__init_mode proc
     push bp
     mov bp, sp
 
@@ -137,12 +135,12 @@ __initMode proc
     
     pop bp
     ret
-__initMode endp
+__init_mode endp
 
 ; --------------------------------------------------------------------------
 ; void _Cdecl _waitvretrace(void)                                          ; 
 ; --------------------------------------------------------------------------
-__waitvretrace proc
+__wait_vretrace proc
     cli
 l1: 
     mov dx, 03dah 
@@ -157,13 +155,13 @@ l2:
     jz l2          
     sti
     ret
-__waitvretrace endp
+__wait_vretrace endp
 
 ; --------------------------------------------------------------------------
 ; void _Cdecl _blit(void)                                                  ; 
 ; --------------------------------------------------------------------------
 __vga_blit proc
-    call __waitvretrace
+    call __wait_vretrace
     push ds                       
     push si                       
     push di                       
