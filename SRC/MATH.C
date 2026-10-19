@@ -29,9 +29,7 @@ double inv_sqrt(double n) {
 
 void init_sincos_lut(void) {
     int i;
-    // This function can be used to initialize any sine/cosine lookup tables if needed.
-    // Currently, it does nothing as we are using the standard library functions.
-
+ 
     for (i = 0; i < LUT_SIZE; i++) {
         double rad = (i * TWO_PI) / LUT_SIZE;
         sin_table[i] = sin(rad);

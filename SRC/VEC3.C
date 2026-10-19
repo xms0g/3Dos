@@ -47,8 +47,8 @@ void vec3_project(vec2* out, const vec3* v, const int fov) {
 }
 
 void vec3_rot_x(vec3* out, const vec3* v, const double angle) {
-    double cosa = cos(angle);
-    double sina = sin(angle);
+    double cosa = cos_lut(angle);
+    double sina = sin_lut(angle);
 
     out->x = v->x;
     out->y = v->y * cosa - v->z * sina;
@@ -56,8 +56,8 @@ void vec3_rot_x(vec3* out, const vec3* v, const double angle) {
 }
 
 void vec3_rot_y(vec3* out, const vec3* v, const double angle) {
-    double cosa = cos(angle);
-    double sina = sin(angle);
+    double cosa = cos_lut(angle);
+    double sina = sin_lut(angle);
 
     out->x = v->x * cosa - v->z * sina;
     out->y = v->y;
@@ -65,8 +65,8 @@ void vec3_rot_y(vec3* out, const vec3* v, const double angle) {
 }
 
 void vec3_rot_z(vec3* out, const vec3* v, const double angle) {
-    double cosa = cos(angle);
-    double sina = sin(angle);
+    double cosa = cos_lut(angle);
+    double sina = sin_lut(angle);
    
     out->x = v->x * cosa - v->y * sina;
     out->y = v->x * sina + v->y * cosa;
