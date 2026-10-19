@@ -11,6 +11,7 @@ void mtx_identity(mat3* out) {
 
 void mtx_rot(mat3* out, const vec3* rot) {
     mat3 temp, matx, maty, matz;
+    
     mtx_rot_x(&matx, rot->x);
     mtx_rot_y(&maty, rot->y);
     mtx_rot_z(&matz, rot->z);
