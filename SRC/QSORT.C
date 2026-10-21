@@ -1,6 +1,14 @@
 #include "qsort.h"
 #include "tringl.h"
 
+#define swap(i, j) do { \
+    triangle *a = (triangle *)cv_at(triangles, i); \
+    triangle *b = (triangle *)cv_at(triangles, j); \
+    triangle tmp = *a; \
+    *a = *b; \
+    *b = tmp; \
+    } while(0)
+
 void quick_sort(cvec* triangles, int low, int high) {
     int i = low;
     int j = high;
@@ -14,13 +22,8 @@ void quick_sort(cvec* triangles, int low, int high) {
             j--;
 
         if (i <= j) {
-            triangle *a = (triangle *)cv_at(triangles, i);
-            triangle *b = (triangle *)cv_at(triangles, j);
-            triangle tmp = *a;
-
-            *a = *b;
-            *b = tmp;
-
+            swap(i, j);
+        
             i++;
             j--;
         }
