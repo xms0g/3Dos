@@ -6,7 +6,7 @@
 #include "keybrd.h"
 #include "cvec.h"
 #include "rndr.h"
-#include "cvec.h"
+#include "qsort.h"
 #include "cube.h"
 #include "icoshdrn.h"
 #include "tree.h"
@@ -131,27 +131,7 @@ static void update() {
     }
 
     // Painter's algorithm.Sorting ascending order because camera looks along -Z
-    for (i = 1; i < triangles.count; ++i) {
-        triangle *tj;
-        triangle *tjNext;
-        triangle key = *(triangle *)cv_at(&triangles, i);
-
-        j = i - 1;
-
-        while (j >= 0) {
-            tj = (triangle *)cv_at(&triangles, j);
-
-            if (tj->avg_depth < key.avg_depth)
-                break;
-
-            tjNext = (triangle *)cv_at(&triangles, j + 1);
-            *tjNext = *tj;
-            --j;
-        }
-
-        tjNext = (triangle *)cv_at(&triangles, j + 1);
-        *tjNext = key;
-    }    
+    quick_sort(&triangles, 0, triangles.count - 1); 
 }
 
 static void render(void) {
