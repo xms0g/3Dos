@@ -1,6 +1,8 @@
 #ifndef CVEC_H
 #define CVEC_H
 
+#define CV_AT(type, vec, index) ((type*)cv_at((vec), (index)))
+
 typedef struct {    
     int count;      
     int capacity;

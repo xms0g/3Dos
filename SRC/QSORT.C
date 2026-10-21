@@ -2,8 +2,8 @@
 #include "tringl.h"
 
 #define swap(i, j) do { \
-    triangle *a = (triangle *)cv_at(triangles, i); \
-    triangle *b = (triangle *)cv_at(triangles, j); \
+    triangle *a = CV_AT(triangle, triangles, i); \
+    triangle *b = CV_AT(triangle, triangles, j); \
     triangle tmp = *a; \
     *a = *b; \
     *b = tmp; \
@@ -12,13 +12,13 @@
 void quick_sort(cvec* triangles, int low, int high) {
     int i = low;
     int j = high;
-    double pivot = ((triangle *)cv_at(triangles, low + ((high - low) >> 1)))->avg_depth;
+    double pivot = (CV_AT(triangle, triangles, low + ((high - low) >> 1)))->avg_depth;
 
     while (i <= j) {
-        while (((triangle *)cv_at(triangles, i))->avg_depth < pivot)
+        while ((CV_AT(triangle, triangles, i))->avg_depth < pivot)
             i++;
 
-        while (((triangle *)cv_at(triangles, j))->avg_depth > pivot)
+        while ((CV_AT(triangle, triangles, j))->avg_depth > pivot)
             j--;
 
         if (i <= j) {

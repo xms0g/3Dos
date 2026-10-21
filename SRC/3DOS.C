@@ -140,7 +140,7 @@ static void render(void) {
     _vga_clr_offscreen(0x03);
 
     for (i = 0; i < triangles.count; ++i) {
-        const triangle* tri = (triangle*)cv_at(&triangles, i);
+        const triangle* tri = CV_AT(triangle, &triangles, i);
 
         // Draw filled triangle
         rnd_draw_filled_tri(
