@@ -6,7 +6,9 @@ static double sin_table[LUT_SIZE];
 static double cos_table[LUT_SIZE];
 
 static int calculate_index(double angle) {
-    int idx = (int)(angle * (LUT_SIZE / TWO_PI));
+    static double step = LUT_SIZE / TWO_PI;
+
+    int idx = (int)(angle * step);
     if (idx < 0) idx = 0;
     if (idx >= LUT_SIZE) idx = LUT_SIZE - 1;
     return idx;
@@ -29,9 +31,10 @@ double inv_sqrt(double n) {
 
 void init_sincos_lut(void) {
     int i;
- 
-    for (i = 0; i < LUT_SIZE; i++) {
-        double rad = (i * TWO_PI) / LUT_SIZE;
+    double step = TWO_PI / LUT_SIZE;
+    
+    for (i = 0; i < LUT_SIZE; ++i) {
+        double rad = i * step;
         sin_table[i] = sin(rad);
         cos_table[i] = cos(rad);
     }
