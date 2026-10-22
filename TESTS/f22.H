@@ -1,9 +1,9 @@
 #ifndef F22_H
 #define F22_H
 
-#include "scene.h"
+#include "mesh.h"
 
-scene f22() {
+mesh f22() {
     static const vec3 vertices[102] = {
         {0.885739, 0.00191, -0.380334},
         {0.322026, 0.03547, -0.433102},
@@ -318,21 +318,21 @@ scene f22() {
         {43, 47, 44, 0x07, {0.082491f, 0.958934f, 0.271368f}},
     };
 
-    scene sc;
+    mesh m;
     int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
     int face_count = sizeof(faces) / sizeof(faces[0]);
 
-    sc.vertices = (vec3*)vertices;
-    sc.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
-    sc.faces = (face*)faces;
-    sc.vertex_count = vertex_count;
-    sc.face_count = face_count;
+    m.vertices = (vec3*)vertices;
+    m.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
+    m.faces = (face*)faces;
+    m.vertex_count = vertex_count;
+    m.face_count = face_count;
 
-    sc.rot.x = 0.03f;
-    sc.rot.y = 0.03f;
-    sc.rot.z = 0.03f;
+    m.rotation.x = 0.03f;
+    m.rotation.y = 0.03f;
+    m.rotation.z = 0.03f;
 
-    return sc;
+    return m;
 }
 
 #endif

@@ -24,7 +24,7 @@ static vec3 camera_orig;
 static vec3 light_dir;
 static cvec triangles;
 static int is_running;
-static scene sc;
+static mesh m;
 
 static void process_input(void) {
     if (_kb_hit(ESC)) {
@@ -42,21 +42,21 @@ static void process_input(void) {
     } else if (_kb_hit(D_ARROW)) {
         camera_pos.y -= 0.1;
     } else if (_kb_hit(NUM_1)) {
-        free(sc.transformed_vertices);
+        free(m.transformed_vertices);
         vec3_zero(&rot);
-        sc = cube();
+        m = cube();
     } else if (_kb_hit(NUM_2)) {
-        free(sc.transformed_vertices);
+        free(m.transformed_vertices);
         vec3_zero(&rot);
-        sc = icosahedron();
+        m = icosahedron();
     } else if (_kb_hit(NUM_3)) {
-        free(sc.transformed_vertices);
+        free(m.transformed_vertices);
         vec3_zero(&rot);
-        sc = tree();
+        m = tree();
     } else if (_kb_hit(NUM_4)) {
-        free(sc.transformed_vertices);
+        free(m.transformed_vertices);
         vec3_zero(&rot);
-        sc = f22();
+        m = f22();
     }
 }
 
@@ -65,17 +65,18 @@ static void update() {
     vec3 camera_ray;
     mat3 rot_mat;
     triangle projected_triangle;
+    vec3 face_vertices[3];
 
     cv_clear(&triangles);
     
     // Rotate the scene
-    vec3_add(&rot, &rot, &sc.rot);
+    vec3_add(&rot, &rot, &m.rotation);
     vec3_wrap(&rot, TWO_PI);
     mtx_rot(&rot_mat, &rot);
 
-    for (i = 0; i < sc.vertex_count; ++i) {
+    for (i = 0; i < m.vertex_count; ++i) {
         vec3 transformed_vertex;
-        const vec3 vertex = sc.vertices[i];
+        const vec3 vertex = m.vertices[i];
 
         // Rotate the vertex
         mtx_mul_vec3(&transformed_vertex, &rot_mat, &vertex);
@@ -84,23 +85,23 @@ static void update() {
         vec3_sub(&transformed_vertex, &transformed_vertex, &camera_pos);
         
         // Save transformed vertex in the array of transformed vertices
-        sc.transformed_vertices[i] = transformed_vertex;
+        m.transformed_vertices[i] = transformed_vertex;
     }
 
-    for (i = 0; i < sc.face_count; ++i) {
+    for (i = 0; i < m.face_count; ++i) {
         vec3 transformed_normal;
         double light_intensity;
         double avg_depth;
-        const face f = sc.faces[i];
+        const face f = m.faces[i];
 
         // Rotate the face normal
         mtx_mul_vec3(&transformed_normal, &rot_mat, &f.normal);
 
-        sc.face_vertices[0] = sc.transformed_vertices[f.a];
-        sc.face_vertices[1] = sc.transformed_vertices[f.b];
-        sc.face_vertices[2] = sc.transformed_vertices[f.c];
+        face_vertices[0] = m.transformed_vertices[f.a];
+        face_vertices[1] = m.transformed_vertices[f.b];
+        face_vertices[2] = m.transformed_vertices[f.c];
 
-        vec3_sub(&camera_ray, &camera_orig, &sc.face_vertices[0]);
+        vec3_sub(&camera_ray, &camera_orig, &face_vertices[0]);
 
         // Backface Culling
         if (vec3_dot(&transformed_normal, &camera_ray) < 0) 
@@ -108,7 +109,7 @@ static void update() {
 
         for (j = 0; j < 3; ++j) {
             vec2 pv;
-            const vec3 fv = sc.face_vertices[j];
+            const vec3 fv = face_vertices[j];
             
             // Project the points onto the screen
             vec3_project(&pv, &fv, FOV_FACTOR);
@@ -119,7 +120,7 @@ static void update() {
             projected_triangle.points[j] = pv;
         }
 
-        avg_depth = (sc.face_vertices[0].z + sc.face_vertices[1].z + sc.face_vertices[2].z) / 3.0;
+        avg_depth = (face_vertices[0].z + face_vertices[1].z + face_vertices[2].z) / 3.0;
         projected_triangle.avg_depth = avg_depth;
         
         light_intensity = vec3_dot(&transformed_normal, &light_dir);
@@ -180,7 +181,7 @@ void main(void) {
 	cv_init(&triangles, 10, sizeof(triangle));
     init_sincos_lut();
 
-    sc = cube(); // Start with the cube scene
+    m = cube(); // Start with the cube scene
 	while (is_running) {
         process_input();
         update();
@@ -188,7 +189,7 @@ void main(void) {
     }
 
 	cv_free(&triangles);
-    free(sc.transformed_vertices);
+    free(m.transformed_vertices);
 
     _vga_exit();
     _kb_exit();

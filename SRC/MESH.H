@@ -1,16 +1,15 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef MESH_H
+#define MESH_H
 
 #include "vec3.h"
 
-typedef struct scene {
+typedef struct {
     vec3* vertices;
     face* faces;
     vec3* transformed_vertices;
-    vec3 face_vertices[3];
-    vec3 rot;
+    vec3 rotation;
     int vertex_count;
     int face_count;
-} scene;
+} mesh;
 
-#endif // SCENE_H
+#endif

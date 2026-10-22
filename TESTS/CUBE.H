@@ -1,9 +1,9 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include "scene.h"
+#include "mesh.h"
 
-scene cube() {
+mesh cube() {
     static const vec3 vertices[8] = {
         {-1, -1, -1},
         {-1,  1, -1},
@@ -36,18 +36,18 @@ scene cube() {
         {5, 0, 3, 0x37, {0, -1, 0}},
     };
 
-    scene sc;
+    mesh m;
     int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
     int face_count = sizeof(faces) / sizeof(faces[0]);
-    sc.vertices = (vec3*)vertices;
-    sc.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
-    sc.faces = (face*)faces;
-    sc.vertex_count = vertex_count;
-    sc.face_count = face_count;
-    sc.rot.x = 0.03; // Set rotation speed for x-axis
-    sc.rot.y = 0.03; // Set rotation speed for y-axis
-    sc.rot.z = 0.03; // Set rotation speed for z-axis
-    return sc;
+    m.vertices = (vec3*)vertices;
+    m.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
+    m.faces = (face*)faces;
+    m.vertex_count = vertex_count;
+    m.face_count = face_count;
+    m.rotation.x = 0.03; // Set rotation speed for x-axis
+    m.rotation.y = 0.03; // Set rotation speed for y-axis
+    m.rotation.z = 0.03; // Set rotation speed for z-axis
+    return m;
 }
 
 #endif
