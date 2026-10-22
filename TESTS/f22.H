@@ -318,21 +318,21 @@ scene f22() {
         {43, 47, 44, 0x07, {0.082491f, 0.958934f, 0.271368f}},
     };
 
-    scene scene;
+    scene sc;
     int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
     int face_count = sizeof(faces) / sizeof(faces[0]);
 
-    scene.vertices = (vec3*)vertices;
-    scene.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
-    scene.faces = (face*)faces;
-    scene.vertex_count = vertex_count;
-    scene.face_count = face_count;
+    sc.vertices = (vec3*)vertices;
+    sc.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
+    sc.faces = (face*)faces;
+    sc.vertex_count = vertex_count;
+    sc.face_count = face_count;
 
-    scene.rot.x = 0.03f;
-    scene.rot.y = 0.03f;
-    scene.rot.z = 0.03f;
+    sc.rot.x = 0.03f;
+    sc.rot.y = 0.03f;
+    sc.rot.z = 0.03f;
 
-    return scene;
+    return sc;
 }
 
 #endif

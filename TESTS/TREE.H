@@ -87,18 +87,18 @@ scene tree() {
         {26, 27, 23, 0x0A, {-1, 0, 0}}
     };
 
-    scene scene;
+    scene sc;
     int vertex_count = sizeof(vertices) / sizeof(vertices[0]);
     int face_count = sizeof(faces) / sizeof(faces[0]);
-    scene.vertices = (vec3*)vertices;
-    scene.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
-    scene.faces = (face*)faces;
-    scene.vertex_count = vertex_count;
-    scene.face_count = face_count;
-    scene.rot.x = 0.0; // Set rotation speed for x-axis
-    scene.rot.y = 0.03; // Set rotation speed for y-axis
-    scene.rot.z = 0.0; // Set rotation speed for z-axis
-    return scene;
+    sc.vertices = (vec3*)vertices;
+    sc.transformed_vertices = (vec3*)malloc(sizeof(vec3) * vertex_count);
+    sc.faces = (face*)faces;
+    sc.vertex_count = vertex_count;
+    sc.face_count = face_count;
+    sc.rot.x = 0.0; // Set rotation speed for x-axis
+    sc.rot.y = 0.03; // Set rotation speed for y-axis
+    sc.rot.z = 0.0; // Set rotation speed for z-axis
+    return sc;
 }
 
 #endif
