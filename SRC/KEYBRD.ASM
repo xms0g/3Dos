@@ -10,9 +10,9 @@ KBC_SCP     EQU 061h
 KBC_BREAK   EQU 080h
 SCP_KBC_DIS EQU 080h
 .code
-public	__kb_hit
-public	__kb_exit
-public	__kb_init
+public __kb_hit
+public __kb_exit
+public __kb_init
 
 __kbc_irq_handler proc far
 	push ax
