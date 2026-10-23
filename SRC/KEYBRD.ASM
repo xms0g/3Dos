@@ -3,12 +3,12 @@
 old_irq	db 4 dup (?)
 keys db	256 dup (?)
 .data
-IRQ_PORT    EQU 020h
-KBC_IRQ     EQU 009h
-KBC_PORT    EQU 060h
-KBC_SCP     EQU 061h
-KBC_BREAK   EQU 080h
-SCP_KBC_DIS EQU 080h
+IRQ_PORT    equ 020h
+KBC_IRQ     equ 009h
+KBC_PORT    equ 060h
+KBC_SCP     equ 061h
+KBC_BREAK   equ 080h
+SCP_KBC_DIS equ 080h
 .code
 public __kb_hit
 public __kb_exit
@@ -33,13 +33,13 @@ __kbc_irq_handler proc far
 	in al, KBC_PORT
 	mov	byte ptr [bp - 1], al	
 	and	al, KBC_BREAK
-	je PRESSED
+	je pressed
   	
 	mov	byte ptr [bp - 2], 0
 	mov	al, byte ptr [bp - 1]	
 	sub	al, KBC_BREAK
 	mov	byte ptr [bp - 1], al
-PRESSED:
+pressed:
 	mov	al, byte ptr [bp - 1]
 	mov	ah, 0
 	mov	dl, byte ptr [bp - 2]
@@ -124,16 +124,16 @@ __kb_hit proc
    
     ;if (key < 0 || key >= 256)
 	or si, si
-	jl ZERO
+	jl zero
 	cmp	si, 256
-	jl KEYS
-ZERO:
+	jl get_key
+zero:
     xor	ax, ax
-	jmp	FINAL
-KEYS:
+	jmp	final
+get_key:
 	mov	al, byte ptr keys[si]
 	mov	ah, 0
-FINAL:
+final:
     pop	si
 	pop	bp
     ret
