@@ -18,10 +18,18 @@
 #define HALF_HEIGHT 100
 #define FOV_FACTOR 280
 
+typedef struct {
+    vec3 position;
+    vec3 origin;
+} camera;
+
+typedef struct {
+    vec3 direction;
+} light;
+
 static vec3 rot;
-static vec3 camera_pos;
-static vec3 camera_orig;
-static vec3 light_dir;
+static camera cam;
+static light l;
 static cvec triangles;
 static int is_running;
 static mesh m;
@@ -30,17 +38,17 @@ static void process_input(void) {
     if (_kb_hit(ESC)) {
         is_running = 0;
     } else if (_kb_hit(W)) {
-        camera_pos.z -= 0.1; 
+        cam.position.z -= 0.1; 
     } else if (_kb_hit(S)) {
-        camera_pos.z += 0.1; 
+        cam.position.z += 0.1; 
     } else if (_kb_hit(A)) {
-        camera_pos.x += 0.1; 
+        cam.position.x += 0.1; 
     } else if (_kb_hit(D)) {
-        camera_pos.x -= 0.1;
+        cam.position.x -= 0.1;
     } else if (_kb_hit(U_ARROW)) {
-        camera_pos.y += 0.1;
+        cam.position.y += 0.1;
     } else if (_kb_hit(D_ARROW)) {
-        camera_pos.y -= 0.1;
+        cam.position.y -= 0.1;
     } else if (_kb_hit(NUM_1)) {
         free(m.transformed_vertices);
         vec3_zero(&rot);
@@ -82,7 +90,7 @@ static void update() {
         mtx_mul_vec3(&transformed_vertex, &rot_mat, &vertex);
 
         // Translate the vertex away from the camera
-        vec3_sub(&transformed_vertex, &transformed_vertex, &camera_pos);
+        vec3_sub(&transformed_vertex, &transformed_vertex, &cam.position);
         
         // Save transformed vertex in the array of transformed vertices
         m.transformed_vertices[i] = transformed_vertex;
@@ -101,7 +109,7 @@ static void update() {
         face_vertices[1] = m.transformed_vertices[f.b];
         face_vertices[2] = m.transformed_vertices[f.c];
 
-        vec3_sub(&camera_ray, &camera_orig, &face_vertices[0]);
+        vec3_sub(&camera_ray, &cam.origin, &face_vertices[0]);
 
         // Backface Culling
         if (vec3_dot(&transformed_normal, &camera_ray) < 0) 
@@ -123,7 +131,7 @@ static void update() {
         avg_depth = (face_vertices[0].z + face_vertices[1].z + face_vertices[2].z) / 3.0;
         projected_triangle.avg_depth = avg_depth;
         
-        light_intensity = vec3_dot(&transformed_normal, &light_dir);
+        light_intensity = vec3_dot(&transformed_normal, &l.direction);
         projected_triangle.light_intensity = clamp(abs(light_intensity), 0.0, 1.0);
         
         projected_triangle.color = f.color;
@@ -157,17 +165,17 @@ static void render(void) {
 }
 
 void main(void) {
-    camera_pos.x = 0.0;
-    camera_pos.y = 0.0;
-	camera_pos.z = 5.0;
+    cam.position.x = 0.0;
+    cam.position.y = 0.0;
+	cam.position.z = 5.0;
 
-    camera_orig.x = 0.0;
-    camera_orig.y = 0.0;
-	camera_orig.z = 0.0;
+    cam.origin.x = 0.0;
+    cam.origin.y = 0.0;
+	cam.origin.z = 0.0;
 
-    light_dir.x = 0.0;
-    light_dir.y = 0.0;
-    light_dir.z = -1.0;
+    l.direction.x = 0.0;
+    l.direction.y = 0.0;
+    l.direction.z = -1.0;
     
     rot.x = 0.0;
     rot.y = 0.0;
@@ -181,7 +189,7 @@ void main(void) {
 	cv_init(&triangles, 10, sizeof(triangle));
     init_sincos_lut();
 
-    m = cube(); // Start with the cube scene
+    m = cube(); // Start with the cube mesh
 	while (is_running) {
         process_input();
         update();
